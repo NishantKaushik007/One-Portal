@@ -8,6 +8,7 @@ import Netflix from '../../Companies/Netflix/Netflix';
 import JPMorganChase from '../../Companies/JP Morgan Chase/JPMorganChase';
 import Oracle from '../../Companies/Oracle/Oracle';
 import PayPal from '../../Companies/PayPal/PayPal';
+import Rippling from '../../Companies/Rippling/Rippling';
 
 const SelectedCompany = () => {
     const [selectedCompany, setSelectedCompany] = useState<string>("");
@@ -37,6 +38,7 @@ const SelectedCompany = () => {
             {selectedCompany === "JP Morgan Chase" && <JPMorganChase selectedCompany={selectedCompany} />}
             {selectedCompany === "Oracle" && <Oracle selectedCompany={selectedCompany} />}
             {selectedCompany === "PayPal" && <PayPal selectedCompany={selectedCompany} />}
+            {selectedCompany === "Rippling" && <Rippling selectedCompany={selectedCompany} />}
         </div>
     );
 };

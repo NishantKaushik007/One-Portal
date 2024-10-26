@@ -45,6 +45,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/paypal/, '')
       },
+      '/_next': {
+        target: 'https://www.rippling.com',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   plugins: [react()],
