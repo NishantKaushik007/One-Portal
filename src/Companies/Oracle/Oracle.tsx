@@ -84,12 +84,11 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
     };
 
     const fetchJobDetails = async (jobId: string) => {
-        const aiResumeUrl = `/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;siteNumber=CX_45001,Id=%22${jobId}%22`; // Construct the URL for fetching job details
+        const aiResumeUrl = `/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;siteNumber=CX_45001,Id=%22${jobId}%22`;
         console.log(`https://eeho.fa.us2.oraclecloud.com${aiResumeUrl}`);
 
         try {
             const response = await axios.get(aiResumeUrl);
-            console.log(response);
             if (response.status === 200) {
                 const jobDetail = response.data.items[0]; // Get job details from the response
                 
@@ -130,7 +129,11 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
                     label: option.value,
                     value: option.code
                 }))}
-                onChange={(e) => stateSetter(e.target.value)}
+                onChange={(newValue) => {
+                    if (newValue) {
+                        stateSetter(newValue.value);
+                    }
+                }}
             />
         </label>
     );
@@ -183,7 +186,7 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
                                         aria-expanded={selectedJobId === job.Id}
                                         onClick={() => {
                                             if (selectedJobId === job.Id) {
-                                                setSelectedJobId(null); // If the same job is clicked, close the details
+                                                setSelectedJobId(null); // Close details if the same job is clicked
                                                 setJobDetails({
                                                     ExternalDescriptionStr: '',
                                                     CorporateDescriptionStr: '',

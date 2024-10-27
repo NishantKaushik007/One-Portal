@@ -142,7 +142,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setJobCategoryCode(e.target.value)}
+                        onChange={(selectedOption) => setJobCategoryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -155,7 +155,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setPostingDateCode(e.target.value)}
+                        onChange={(selectedOption) => setPostingDateCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -168,7 +168,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setCountryCode(e.target.value)}
+                        onChange={(selectedOption) => setCountryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
             </div>

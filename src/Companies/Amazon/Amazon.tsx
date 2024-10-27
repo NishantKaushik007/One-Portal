@@ -24,7 +24,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedJobId, setSelectedJobId] = useState<string | null>(null); // State to hold selected job ID
+    const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
     // State variables for filters
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
@@ -80,7 +80,6 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
     };
 
     const toggleJobDetails = (jobId: string) => {
-        // If the selected job is already open, close it; otherwise, open it
         setSelectedJobId(selectedJobId === jobId ? null : jobId);
     };
 
@@ -96,7 +95,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setJobCategoryCode(e.target.value)}
+                        onChange={(selectedOption) => setJobCategoryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -109,7 +108,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setCategoryCode(e.target.value)}
+                        onChange={(selectedOption) => setCategoryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -122,7 +121,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setJobTypeCode(e.target.value)}
+                        onChange={(selectedOption) => setJobTypeCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -135,7 +134,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setCountryCode(e.target.value)}
+                        onChange={(selectedOption) => setCountryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -148,7 +147,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}
-                        onChange={(e) => setIndustryExpCode(e.target.value)}
+                        onChange={(selectedOption) => setIndustryExpCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
             </div>

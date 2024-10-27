@@ -1,6 +1,6 @@
-//Not Re-rendreing during filter change on runtime, only renders for filters when make some changes in code
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import Select from 'react-select';
 import { jobCategory, location } from '../../Data/data';
 
 interface Job {
@@ -27,17 +27,6 @@ interface RipplingProps {
     selectedCompany: string;
 }
 
-const Dropdown = ({ options, onChange }: { options: { label: string; value: string }[], onChange: (value: string) => void }) => (
-    <select onChange={(e) => onChange(e.target.value)} aria-label="Select an option">
-        <option value="">Select an option</option>
-        {options.map(option => (
-            <option key={option.value} value={option.value}>
-                {option.label}
-            </option>
-        ))}
-    </select>
-);
-
 const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -46,7 +35,6 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [locationCode, setLocationCode] = useState<string>('');
 
-    // Fetch jobs only when selectedCompany is "Rippling"
     useEffect(() => {
         const fetchJobs = async () => {
             setLoading(true);
@@ -69,7 +57,7 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         if (selectedCompany === 'Rippling') {
             fetchJobs();
         } else {
-            setJobs([]); // Clear jobs if another company is selected
+            setJobs([]);
         }
     }, [selectedCompany]);
 
@@ -85,7 +73,6 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
             value: option.code
         })), [selectedCompany]);
 
-    // Use memo to filter jobs based on selected location and department
     const filteredJobs = useMemo(() => {
         return jobs.filter(job => {
             const matchesLocation = locationCode ? job.workLocation.id === locationCode : true;
@@ -94,14 +81,46 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         });
     }, [jobs, locationCode, jobCategoryCode]);
 
-    const handleDepartmentChange = (value: string) => {
-        setJobCategoryCode(value);
-        console.log('Selected Department:', value);
+    const handleDepartmentChange = (selectedOption: { value: string; label: string } | null) => {
+        setJobCategoryCode(selectedOption ? selectedOption.value : '');
     };
 
-    const handleLocationChange = (value: string) => {
-        setLocationCode(value);
-        console.log('Selected Location:', value);
+    const handleLocationChange = (selectedOption: { value: string; label: string } | null) => {
+        setLocationCode(selectedOption ? selectedOption.value : '');
+    };
+
+    const calculateDropdownWidth = (options: { label: string; value: string }[], placeholder: string) => {
+        const maxLength = Math.max(
+            ...options.map(option => option.label.length),
+            placeholder.length
+        );
+
+        // Increase multiplier to account for the width of the dropdown and add extra padding
+        return `${Math.ceil(maxLength * 8.5) + 50}px`; // Increased padding
+    };
+
+    // Adjust dropdown widths specifically
+    const departmentDropdownWidth = calculateDropdownWidth(filteredJobCategories, 'Select a department');
+    const locationDropdownWidth = calculateDropdownWidth(filteredLocations, 'Select a location');
+
+    const dropdownStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            minWidth: '200px',
+            width: departmentDropdownWidth,
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            width: departmentDropdownWidth,
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            whiteSpace: 'normal',
+        }),
+        option: (provided: any) => ({
+            ...provided,
+            whiteSpace: 'normal',
+        }),
     };
 
     return (
@@ -109,16 +128,42 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
             <div className="flex flex-row space-x-4 mb-6">
                 <label className="flex flex-col">
                     Departments:
-                    <Dropdown 
+                    <Select 
                         options={filteredJobCategories} 
                         onChange={handleDepartmentChange} 
+                        isClearable
+                        placeholder="Select a department"
+                        styles={{
+                            ...dropdownStyles,
+                            control: (provided: any) => ({
+                                ...provided,
+                                width: departmentDropdownWidth,
+                            }),
+                            menu: (provided: any) => ({
+                                ...provided,
+                                width: departmentDropdownWidth,
+                            }),
+                        }}
                     />
                 </label>
                 <label className="flex flex-col">
                     Locations:
-                    <Dropdown 
+                    <Select 
                         options={filteredLocations} 
                         onChange={handleLocationChange} 
+                        isClearable
+                        placeholder="Select a location"
+                        styles={{
+                            ...dropdownStyles,
+                            control: (provided: any) => ({
+                                ...provided,
+                                width: locationDropdownWidth,
+                            }),
+                            menu: (provided: any) => ({
+                                ...provided,
+                                width: locationDropdownWidth,
+                            }),
+                        }}
                     />
                 </label>
             </div>

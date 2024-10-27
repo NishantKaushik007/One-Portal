@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Dropdown } from '../../Components/Dropdown/Dropdown';
+import Select from 'react-select'; // Importing react-select
 import { jobCategory, jobType, location, skills } from '../../Data/data'; // Ensure this path is correct
 
 // Define the Job interface
@@ -77,12 +77,9 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     
         try {
             const response = await axios.get(aiResumeUrl);
-    
             if (response.status === 200) {
                 const jobDetails = response.data; // Get job details from the response
-    
-                // Store the job description in state
-                setDescription(jobDetails.job_description); // Only setting the job description
+                setDescription(jobDetails.job_description); // Store the job description in state
             } else {
                 console.error(`Unexpected response status: ${response.status}`);
             }
@@ -113,53 +110,97 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
             <div className="flex flex-row space-x-4 mb-6">
                 <label className="flex flex-col">
                     Teams:
-                    <Dropdown
+                    <Select
                         options={jobCategory
                             .filter(option => option.company === selectedCompany)
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
-                        onChange={(e) => setJobCategoryCode(e.target.value)} 
+                            }))}
+                        onChange={(option) => {
+                            if (option) {
+                                setJobCategoryCode(option.value);
+                            }
+                        }}
+                        styles={{ 
+                            control: (base) => ({
+                                ...base,
+                                minWidth: '200px', // Minimum width for dropdown
+                            }),
+                        }}
+                        placeholder="Select a Team"
                     />
                 </label>
 
                 <label className="flex flex-col">
                     Work Type:
-                    <Dropdown
+                    <Select
                         options={jobType
                             .filter(option => option.company === selectedCompany)
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
-                        onChange={(e) => setJobTypeCode(e.target.value)} 
+                            }))}
+                        onChange={(option) => {
+                            if (option) {
+                                setJobTypeCode(option.value);
+                            }
+                        }}
+                        styles={{ 
+                            control: (base) => ({
+                                ...base,
+                                minWidth: '200px', // Minimum width for dropdown
+                            }),
+                        }}
+                        placeholder="Select Work Type"
                     />
                 </label>
 
                 <label className="flex flex-col">
                     Locations:
-                    <Dropdown
+                    <Select
                         options={location
                             .filter(option => option.company === selectedCompany)
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
-                        onChange={(e) => setLocationCode(e.target.value)} 
+                            }))}
+                        onChange={(option) => {
+                            if (option) {
+                                setLocationCode(option.value);
+                            }
+                        }}
+                        styles={{ 
+                            control: (base) => ({
+                                ...base,
+                                minWidth: '200px', // Minimum width for dropdown
+                            }),
+                        }}
+                        placeholder="Select a Location"
                     />
                 </label>
 
                 <label className="flex flex-col">
                     Skills:
-                    <Dropdown
+                    <Select
                         options={skills
                             .filter(option => option.company === selectedCompany)
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
-                        onChange={(e) => setSkillsCode(e.target.value)} 
+                            }))}
+                        onChange={(option) => {
+                            if (option) {
+                                setSkillsCode(option.value);
+                            }
+                        }}
+                        styles={{ 
+                            control: (base) => ({
+                                ...base,
+                                minWidth: '200px', // Minimum width for dropdown
+                            }),
+                        }}
+                        placeholder="Select Skills"
                     />
                 </label>
             </div>

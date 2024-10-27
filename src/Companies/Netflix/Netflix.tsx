@@ -22,7 +22,7 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // State variables for filters
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [jobTypeCode, setJobTypeCode] = useState<string>('');
@@ -70,17 +70,15 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
     };
 
     const fetchJobDetails = async (jobId: string) => {
-        const aiResumeUrl = `/netflix/api/apply/v2/jobs/${jobId}?domain=netflix.com`; // Construct the URL for fetching job details
+        const aiResumeUrl = `/netflix/api/apply/v2/jobs/${jobId}?domain=netflix.com`;
         console.log(aiResumeUrl);
     
         try {
             const response = await axios.get(aiResumeUrl);
     
             if (response.status === 200) {
-                const jobDetails = response.data; // Get job details from the response
-    
-                // Store the job description in state
-                setDescription(jobDetails.job_description); // Only setting the job description
+                const jobDetails = response.data;
+                setDescription(jobDetails.job_description || ''); // Handle potential undefined description
             } else {
                 console.error(`Unexpected response status: ${response.status}`);
             }
@@ -103,7 +101,7 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
     };
 
     const handleBackPage = () => {
-        setCurrentPage((prev) => Math.max(prev - 1, 1)); // Ensure page doesn't go below 1
+        setCurrentPage((prev) => Math.max(prev - 1, 1));
     };
 
     return (
@@ -118,7 +116,11 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setJobCategoryCode(e.target.value)} 
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setJobCategoryCode(newValue.value);
+                            }
+                        }} 
                     />
                 </label>
 
@@ -131,7 +133,11 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setJobTypeCode(e.target.value)} 
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setJobTypeCode(newValue.value);
+                            }
+                        }} 
                     />
                 </label>
 
@@ -144,7 +150,11 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setLocationCode(e.target.value)} 
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setLocationCode(newValue.value);
+                            }
+                        }} 
                     />
                 </label>
             </div>
@@ -165,24 +175,23 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                                         <p>Location: {job.locations.join(', ')}</p>
                                         <p>Posted On: {new Date(job.postingDate).toLocaleDateString()}</p>
                                         <a 
-                                            href={`${job.canonicalPositionUrl}`} 
+                                            href={job.canonicalPositionUrl} 
                                             target="_blank" 
                                             rel="noopener noreferrer">
                                             View Job
                                         </a>
                                         <button onClick={() => {
                                             if (selectedJobId === job.id) {
-                                                setSelectedJobId(null); // If the same job is clicked, close the details
-                                                setDescription(''); // Clear the description
+                                                setSelectedJobId(null);
+                                                setDescription('');
                                             } else {
-                                                setSelectedJobId(job.id); // Set selected job ID
-                                                fetchJobDetails(job.id); // Fetch job details
+                                                setSelectedJobId(job.id);
+                                                fetchJobDetails(job.id);
                                             }
                                         }}>
                                             {selectedJobId === job.id ? 'Hide Details' : 'View Details'}
                                         </button>
                                     </div>
-                                    {/* Job Details Section: Show only if this job is selected */}
                                     {selectedJobId === job.id && (
                                         <div className="mt-4">
                                             {description && (
@@ -200,18 +209,17 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                         )}
                     </ul>
 
-                    {/* Pagination Controls */}
                     <div className="mt-4 flex justify-between space-x-2">
                         <button 
                             onClick={handleBackPage} 
-                            disabled={loading || currentPage === 1} // Disable while loading and on the first page
+                            disabled={loading || currentPage === 1} 
                             className="bg-gray-500 text-white py-2 px-4 rounded">
                             Previous
                         </button>
                         <span>Page {currentPage}</span>
                         <button 
                             onClick={handleNextPage} 
-                            disabled={loading} // Disable while loading
+                            disabled={loading} 
                             className="bg-blue-500 text-white py-2 px-4 rounded">
                             Next
                         </button>

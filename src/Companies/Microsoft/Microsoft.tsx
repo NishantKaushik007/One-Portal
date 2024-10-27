@@ -120,7 +120,9 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setJobCategoryCode(e.target.value)} // Correct state update
+                        onChange={(newValue) => {
+                            if (newValue) setJobCategoryCode(newValue.value);
+                        }} // Correct state update
                     />
                 </label>
 
@@ -133,7 +135,9 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setCategoryCode(e.target.value)} // Correct state update
+                        onChange={(newValue) => {
+                            if (newValue) setCategoryCode(newValue.value);
+                        }} // Correct state update
                     />
                 </label>
 
@@ -146,7 +150,9 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setJobTypeCode(e.target.value)} // Correct state update
+                        onChange={(newValue) => {
+                            if (newValue) setJobTypeCode(newValue.value);
+                        }} // Correct state update
                     />
                 </label>
 
@@ -159,7 +165,9 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setCountryCode(e.target.value)} // Correct state update
+                        onChange={(newValue) => {
+                            if (newValue) setCountryCode(newValue.value);
+                        }} // Correct state update
                     />
                 </label>
 
@@ -172,7 +180,9 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setIndustryExpCode(e.target.value)} // Correct state update
+                        onChange={(newValue) => {
+                            if (newValue) setIndustryExpCode(newValue.value);
+                        }} // Correct state update
                     />
                 </label>
 
@@ -185,7 +195,13 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 label: option.value,
                                 value: option.code
                             }))}                        
-                        onChange={(e) => setDisciplineCode(e.target.value.replace(/&/g, '%26'))} // Replace & with %26 on change
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setDisciplineCode(newValue.value.replace(/&/g, '%26'));
+                            } else {
+                                setDisciplineCode(''); // Reset state if no value is selected
+                            }
+                        }}
                     />
                 </label>
             </div>
