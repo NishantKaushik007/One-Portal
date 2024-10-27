@@ -1,11 +1,11 @@
 export const companyList = [
-    {value: "Amazon"},
-    {value: "Microsoft"},
-    {value: "Netflix"},
-    {value: "JP Morgan Chase"},
-    {value: "Oracle"},
-    {value: "PayPal"},
-    {value: "Rippling"},
+    { value: 'Amazon', icon: 'https://cdn-icons-png.flaticon.com/128/16021/16021158.png' },
+    { value: 'Microsoft', icon: 'https://cdn-icons-png.flaticon.com/128/732/732221.png' },
+    { value: 'Netflix', icon: 'https://cdn-icons-png.flaticon.com/128/2504/2504929.png' },
+    { value: 'JP Morgan Chase', icon: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3KzU3Nzc3LS03NzUtNzc3NTc3LS03KzEwNzc1Nzc3Nzc3LjQrNzcrLS0xLS01NS0tK//AABEIABwAHAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAAEBQYDAP/EACQQAAIBBAEEAgMAAAAAAAAAAAECAwAEERIhBSIxoUGBUWFx/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIFAP/EABgRAAMBAQAAAAAAAAAAAAAAAAABAhEx/9oADAMBAAIRAxEAPwBFND+qBkjKniqnp1nDcRXrTIWMMaMmGI5MqKfTGi7zofTJZb+ytTIt7FJIkRZzpsrOQpJ+SiH7xU1S2VHSRD11VfWOiWNhZ2t3b2810krRCRdyNQYlcnjwWLHHwNfBqUrNYGa3hTJK6xusTlQ+NgDjODke8H6rGQu22zsdjk5Y8msbd24olhxSj4CSmbuxLJ3Lqe88j8fyl7w93imzgUO6jaiA/9k=' },
+    { value: 'Oracle', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcBAMAAACAI8KnAAAALVBMVEVHcEzkVkPmV0TlV0PlWEPlV0PlWETlWETlV0PmWETlVkPlWETlV0TmV0PmV0TFqcTpAAAAD3RSTlMAD2Sfu4by/zLQJ92veERmpuGyAAAAr0lEQVR4AWOgKmBUdgEDIwEwL6wcClJB/M5yOJjBwMA1vXxP7F0guHq6vHIBA3N5TQPEDI7j5QYM7eWGMDOFyysYwiuBklDp6aUM04sRVppXMqTXIrjqZQzlRUjccobtpQhueDWDeckCGI/LvZjhefkFGJe3vI7JiGEujHuSQZiBL73MqWsVEKxQSS97ADKuPA0MysGW8E2HeajyAUgLk+duMJiiCA2OVWAgQGGoAgBsVkUyjx4voAAAAABJRU5ErkJggg==' },
+    { value: 'PayPal', icon: 'https://cdn-icons-png.flaticon.com/128/5968/5968365.png' },
+    { value: 'Rippling', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAArlBMVEX/swD/tAD/tQD/tgD/twD/uAD/uQD/ugD/uwD/vAD/vQD/vgD/vwD/wAD/wQD/wgD/xgD/sgD/sQD/sAD/rwD/rgCueQBIMwBVPACIYADuqgBNOQCVbgCgdwD/rQBxTwAAAACldQDcnQAWDwDDkgD/rAB9WQC4hgA4JgDoowDHjgD/qwD/qgArIACaawBgRQD/qQCQYQD/qADUkQD/pwDglwAcFAD/pgD/pQAkGAD4UyxiAAABcElEQVR4AX3RVWLtMAxFUYUT22FOCucyw8O2859YpTL7d5k3kWXbjut5fhBGkdLGxEmSptnDoPyzMooKijqs/mel4gelssjpO6Xqo6pXZWR1gjBwHE+bOAqjJMvSR6Wa1Wrarg/dYey6ITIXY3eZxaJ0JepfA5PAnwIzFaYjME9FaSFalAA8Wy+BlVIDsM4MK6Oo1wIbx9sCSx2kAJQxjDteWleuoP2IfjIDIs23o71oVQGwKOyBVRgMwCGVF9Fe1FkCR8feAPC85MRTDH+GpjNr+Qs4+bnYxguvgT4LQ1b6fealuzXwh6wJcM3PnQFDJEp/Ret/wNopw5HnuMEWOJmAlVHUAlCW9hFoPMcC/hs/YLx5UGKsK0vQtRmhfVa6fdAcwFVNgo5FAJTHSrcPWs7usKjzyWzW2JTj7hC5rIyiZ+62WFzljmtxXk4ueRmfVF70EOFNfMbv9Qmf9eqtMr7q/q1arIKftXjUJ5RjP+s9qeZF+E/JFkUAAAAASUVORK5CYII=' },
 ];
 
 export const jobCategory = [

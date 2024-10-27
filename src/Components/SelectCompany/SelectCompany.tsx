@@ -7,31 +7,52 @@ import JPMorganChase from '../../Companies/JP Morgan Chase/JPMorganChase';
 import Oracle from '../../Companies/Oracle/Oracle';
 import PayPal from '../../Companies/PayPal/PayPal';
 import Rippling from '../../Companies/Rippling/Rippling';
-import Select from 'react-select';
-import SelectCompanyStyle from './SelectCompanyStyle.module.css';
+import Select, { components } from 'react-select';
+
+// Define the type for the option
+interface CompanyOption {
+    label: string; // Displayed name
+    value: string; // Internal value
+    icon: string;  // Icon URL
+}
+
+// Custom option component for Select
+const CustomOption = (props: any) => {
+    const { data } = props;
+    return (
+        <components.Option {...props}>
+            <div className="flex items-center">
+                <img src={data.icon} alt={data.label} className="w-5 mr-2" />
+                <span>{data.label}</span>
+            </div>
+        </components.Option>
+    );
+};
 
 const SelectedCompany = () => {
     const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
 
     // Handle the change in selected company
-    const handleCompanyChange = (selectedOption: { value: string; label: string } | null) => {
+    const handleCompanyChange = (selectedOption: CompanyOption | null) => {
         setSelectedCompany(selectedOption ? selectedOption.value : null);
     };
 
-    const companyOptions = companyList.map(option => ({
+    const companyOptions: CompanyOption[] = companyList.map(option => ({
         label: option.value,
-        value: option.value
+        value: option.value,
+        icon: option.icon // Include the icon URL
     }));
 
     return (
-        <div className={SelectCompanyStyle.container}>
-            <label>
+        <div className="p-4">
+            <label className="block mb-2">
                 Select Company:
                 <Select
                     options={companyOptions}
                     onChange={handleCompanyChange}
-                    isClearable // Allows the selection to be cleared
-                    placeholder="Select a company..." // Placeholder text
+                    isClearable
+                    placeholder="Select a company..."
+                    components={{ Option: CustomOption }} // Use the custom option
                 />
             </label>
 
