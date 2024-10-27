@@ -7,7 +7,6 @@ import JPMorganChase from '../../Companies/JP Morgan Chase/JPMorganChase';
 import Oracle from '../../Companies/Oracle/Oracle';
 import PayPal from '../../Companies/PayPal/PayPal';
 import Rippling from '../../Companies/Rippling/Rippling';
-import AMD from '../../Companies/AMD/AMD';
 import Select from 'react-select';
 import SelectCompanyStyle from './SelectCompanyStyle.module.css';
 
@@ -44,7 +43,6 @@ const SelectedCompany = () => {
             {selectedCompany === "Oracle" && <Oracle selectedCompany={selectedCompany} />}
             {selectedCompany === "PayPal" && <PayPal selectedCompany={selectedCompany} />}
             {selectedCompany === "Rippling" && <Rippling selectedCompany={selectedCompany} />}
-            {selectedCompany === "AMD" && <AMD selectedCompany={selectedCompany} />}
         </div>
     );
 };

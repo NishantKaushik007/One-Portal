@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import { jobCategory, location } from '../../Data/data';
@@ -31,96 +31,70 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [locationCode, setLocationCode] = useState<string>('');
 
-    useEffect(() => {
-        const fetchJobs = async () => {
-            setLoading(true);
-            setError(null);
-            const url = `/_next/data/r1zEgQrVrrgLzTRFhjDxY/en-GB/careers/open-roles.json`;
-            try {
-                const res = await axios.get<ApiResponse>(url);
-                if (res.data.pageProps?.jobs) {
-                    setJobs(res.data.pageProps.jobs);
-                } else {
-                    throw new Error('Invalid response structure: jobs not found');
-                }
-            } catch (error) {
-                setError('Error fetching data: ' + (error as Error).message);
-            } finally {
-                setLoading(false);
+    // Function to fetch jobs based on the selected filters
+    const fetchJobs = async () => {
+        setLoading(true);
+        setError(null);
+        const url = `/_next/data/r1zEgQrVrrgLzTRFhjDxY/en-GB/careers/open-roles.json`;
+        try {
+            const res = await axios.get<ApiResponse>(url);
+            if (res.data.pageProps?.jobs) {
+                setJobs(res.data.pageProps.jobs);
+            } else {
+                throw new Error('Invalid response structure: jobs not found');
             }
-        };
+        } catch (error) {
+            setError('Error fetching data: ' + (error as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    // Fetch jobs when the selected company changes
+    useEffect(() => {
         if (selectedCompany === 'Rippling') {
             fetchJobs();
         } else {
-            setJobs([]);
+            setJobs([]); // Clear jobs when the company changes
         }
     }, [selectedCompany]);
 
-    const filteredJobCategories = useMemo(() => 
-        jobCategory.filter(option => option.company === selectedCompany).map(option => ({
-            label: option.value,
-            value: option.code
-        })), [selectedCompany]);
+    // Function to handle filter change and refetch data
+    const handleFilterChange = () => {
+        fetchJobs(); // Refetch jobs based on current filters
+    };
 
-    const filteredLocations = useMemo(() => 
-        location.filter(option => option.company === selectedCompany).map(option => ({
-            label: option.value,
-            value: option.code
-        })), [selectedCompany]);
+    // Filter job categories and locations based on selected company
+    const filteredJobCategories = jobCategory.filter(option => option.company === selectedCompany).map(option => ({
+        label: option.value,
+        value: option.code
+    }));
 
-    const filteredJobs = useMemo(() => {
-        return jobs.filter(job => {
-            const matchesLocation = locationCode ? job.workLocation.id === locationCode : true;
-            const matchesDepartment = jobCategoryCode ? job.department.id === jobCategoryCode : true;
-            return matchesLocation && matchesDepartment;
-        });
-    }, [jobs, locationCode, jobCategoryCode]);
+    const filteredLocations = location.filter(option => option.company === selectedCompany).map(option => ({
+        label: option.value,
+        value: option.code
+    }));
 
+    // Filter jobs based on selected criteria
+    const filteredJobs = jobs.filter(job => {
+        const matchesLocation = locationCode ? job.workLocation.id === locationCode : true;
+        const matchesDepartment = jobCategoryCode ? job.department.id === jobCategoryCode : true;
+        return matchesLocation && matchesDepartment;
+    });
+
+    // Handlers for dropdown changes
     const handleDepartmentChange = (selectedOption: { value: string; label: string } | null) => {
         setJobCategoryCode(selectedOption ? selectedOption.value : '');
+        handleFilterChange(); // Refetch jobs when department changes
     };
 
     const handleLocationChange = (selectedOption: { value: string; label: string } | null) => {
         setLocationCode(selectedOption ? selectedOption.value : '');
-    };
-
-    const calculateDropdownWidth = (options: { label: string; value: string }[], placeholder: string) => {
-        const maxLength = Math.max(
-            ...options.map(option => option.label.length),
-            placeholder.length
-        );
-
-        // Increase multiplier to account for the width of the dropdown and add extra padding
-        return `${Math.ceil(maxLength * 8.5) + 50}px`; // Increased padding
-    };
-
-    // Adjust dropdown widths specifically
-    const departmentDropdownWidth = calculateDropdownWidth(filteredJobCategories, 'Select a department');
-    const locationDropdownWidth = calculateDropdownWidth(filteredLocations, 'Select a location');
-
-    const dropdownStyles = {
-        control: (provided: any) => ({
-            ...provided,
-            minWidth: '200px',
-            width: departmentDropdownWidth,
-        }),
-        menu: (provided: any) => ({
-            ...provided,
-            width: departmentDropdownWidth,
-        }),
-        singleValue: (provided: any) => ({
-            ...provided,
-            whiteSpace: 'normal',
-        }),
-        option: (provided: any) => ({
-            ...provided,
-            whiteSpace: 'normal',
-        }),
+        handleFilterChange(); // Refetch jobs when location changes
     };
 
     return (
@@ -133,17 +107,6 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
                         onChange={handleDepartmentChange} 
                         isClearable
                         placeholder="Select a department"
-                        styles={{
-                            ...dropdownStyles,
-                            control: (provided: any) => ({
-                                ...provided,
-                                width: departmentDropdownWidth,
-                            }),
-                            menu: (provided: any) => ({
-                                ...provided,
-                                width: departmentDropdownWidth,
-                            }),
-                        }}
                     />
                 </label>
                 <label className="flex flex-col">
@@ -153,17 +116,6 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
                         onChange={handleLocationChange} 
                         isClearable
                         placeholder="Select a location"
-                        styles={{
-                            ...dropdownStyles,
-                            control: (provided: any) => ({
-                                ...provided,
-                                width: locationDropdownWidth,
-                            }),
-                            menu: (provided: any) => ({
-                                ...provided,
-                                width: locationDropdownWidth,
-                            }),
-                        }}
                     />
                 </label>
             </div>
