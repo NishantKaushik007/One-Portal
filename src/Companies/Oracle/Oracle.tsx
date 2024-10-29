@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dropdown } from '../../Components/Dropdown/Dropdown';
 import { jobCategory, industryExp, jobType, country, postingDate } from '../../Data/data';
+import JobCard from '../../Components/JobCard/JobCard';
 
 interface SecondaryLocation {
-    RequisitionLocationId: number;
-    GeographyNodeId: number;
-    GeographyId: number;
-    Name: string;
-    CountryCode: string;
-    Latitude: number | null;
-    Longitude: number | null;
+    Name: string; // Name of the secondary location
 }
 
 interface Job {
@@ -19,34 +14,30 @@ interface Job {
     PostedDate: string;
     job_path: string;
     normalized_location: string;
-    items: string[];
     PrimaryLocation: string;
-    secondaryLocations: SecondaryLocation[];
+    secondaryLocations: SecondaryLocation[]; // Ensure this is included
 }
 
-const RenderHTML: React.FC<{ html: string }> = ({ html }) => (
-    <div dangerouslySetInnerHTML={{ __html: html }} />
-);
-
-interface OracleProps {
-    selectedCompany: string;
+interface JobDetails {
+    ExternalDescriptionStr: string;
+    CorporateDescriptionStr: string;
+    ExternalQualificationsStr: string;
+    ExternalResponsibilitiesStr: string;
+    Skills: string;
 }
 
-const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
+const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
-
-    // State variable to store job details
-    const [jobDetails, setJobDetails] = useState({
+    const [jobDetails, setJobDetails] = useState<JobDetails>({
         ExternalDescriptionStr: '',
         CorporateDescriptionStr: '',
         ExternalQualificationsStr: '',
         ExternalResponsibilitiesStr: '',
         Skills: '',
     });
-
     const [filters, setFilters] = useState({
         jobCategoryCode: '',
         jobTypeCode: '',
@@ -54,10 +45,6 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
         industryExpCode: '',
         postingDateCode: '',
     });
-
-    // Pagination state
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const resultsPerPage = 10;
 
     const fetchJobs = async () => {
         setLoading(true);
@@ -85,14 +72,10 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
 
     const fetchJobDetails = async (jobId: string) => {
         const aiResumeUrl = `/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;siteNumber=CX_45001,Id=%22${jobId}%22`;
-        console.log(`https://eeho.fa.us2.oraclecloud.com${aiResumeUrl}`);
-
         try {
             const response = await axios.get(aiResumeUrl);
             if (response.status === 200) {
-                const jobDetail = response.data.items[0]; // Get job details from the response
-                
-                // Map the API response to your local state
+                const jobDetail = response.data.items[0];
                 setJobDetails({
                     ExternalDescriptionStr: jobDetail.ExternalDescriptionStr || '',
                     CorporateDescriptionStr: jobDetail.CorporateDescriptionStr || '',
@@ -104,17 +87,22 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
                 console.error(`Unexpected response status: ${response.status}`);
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Error fetching job details:', error.message);
-            } else {
-                console.error('Unexpected error:', error);
-            }
+            console.error('Error fetching job details:', error);
         }
     };
 
     useEffect(() => {
         fetchJobs();
     }, [filters]);
+
+    const handleJobSelect = (jobId: string) => {
+        if (selectedJobId === jobId) {
+            setSelectedJobId(null);
+        } else {
+            setSelectedJobId(jobId);
+            fetchJobDetails(jobId);
+        }
+    };
 
     const handleDropdownChange = (key: string) => (value: string) => {
         setFilters(prev => ({ ...prev, [key]: value }));
@@ -138,14 +126,6 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
         </label>
     );
 
-    // Calculate the index of the first and last job for the current page
-    const indexOfLastJob = currentPage * resultsPerPage;
-    const indexOfFirstJob = indexOfLastJob - resultsPerPage;
-    const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
-
-    // Calculate total pages
-    const totalPages = Math.ceil(jobs.length / resultsPerPage);
-
     return (
         <div>
             <div className="flex flex-row space-x-4 mb-6">
@@ -162,98 +142,30 @@ const Oracle: React.FC<OracleProps> = ({ selectedCompany }) => {
                 <div className="error">{error}</div>
             ) : (
                 <ul>
-                    {currentJobs.length > 0 ? (
-                        currentJobs.map((job) => (
-                            <li key={job.Id}>
-                                <div>
-                                    <h3>{job.Title}</h3>
-                                    <p>Job ID: {job.Id}</p>
-                                    <p>
-                                        Location: {job.PrimaryLocation}
-                                        {job.secondaryLocations.length > 0
-                                            ? `, ${job.secondaryLocations.map(location => location.Name).join(', ')}`
-                                            : ''}
-                                    </p>
-                                    <p>Posted On: {job.PostedDate}</p>
-                                    <a
-                                        href={`https://careers.oracle.com/jobs/#en/sites/jobsearch/job/${job.Id}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        View Job
-                                    </a>
-                                    <button 
-                                        aria-expanded={selectedJobId === job.Id}
-                                        onClick={() => {
-                                            if (selectedJobId === job.Id) {
-                                                setSelectedJobId(null); // Close details if the same job is clicked
-                                                setJobDetails({
-                                                    ExternalDescriptionStr: '',
-                                                    CorporateDescriptionStr: '',
-                                                    ExternalQualificationsStr: '',
-                                                    ExternalResponsibilitiesStr: '',
-                                                    Skills: '',
-                                                });
-                                            } else {
-                                                setSelectedJobId(job.Id); // Set selected job ID
-                                                fetchJobDetails(job.Id); // Fetch job details
-                                            }
-                                        }}
-                                    >
-                                        {selectedJobId === job.Id ? 'Hide Details' : 'View Details'}
-                                    </button>
-                                </div>
-                                {/* Job Details Section: Show only if this job is selected */}
-                                {selectedJobId === job.Id && (
-                                    <div className="mt-4">
-                                        {jobDetails.Skills && (
-                                            <div>
-                                                <h4>Skills:</h4>
-                                                <RenderHTML html={jobDetails.Skills} />
-                                            </div>
-                                        )}
-                                        {jobDetails.ExternalQualificationsStr && (
-                                            <RenderHTML html={jobDetails.ExternalQualificationsStr} />
-                                        )}
-                                        {jobDetails.ExternalDescriptionStr && (
-                                            <RenderHTML html={jobDetails.ExternalDescriptionStr} />
-                                        )}
-                                        {jobDetails.CorporateDescriptionStr && (
-                                            <RenderHTML html={jobDetails.CorporateDescriptionStr} />
-                                        )}
-                                        {jobDetails.ExternalResponsibilitiesStr && (
-                                            <RenderHTML html={jobDetails.ExternalResponsibilitiesStr} />
-                                        )}
-                                    </div>
-                                )}
-                            </li>
-                        ))
-                    ) : (
-                        <div>No jobs available.</div>
-                    )}
+                    {jobs.map((job) => (
+                        <li key={job.Id}>
+                            <JobCard
+                                baseUrl=""
+                                job={{
+                                    title: job.Title,
+                                    id_icims: job.Id,
+                                    posted_date: job.PostedDate,
+                                    job_path: `https://careers.oracle.com/jobs/#en/sites/jobsearch/job/${job.Id}`,
+                                    normalized_location: job.PrimaryLocation,
+                                    secondaryLocations: job.secondaryLocations, // Pass secondary locations here
+                                    basic_qualifications: jobDetails.ExternalQualificationsStr,
+                                    description: jobDetails.ExternalDescriptionStr,
+                                    preferred_qualifications: jobDetails.ExternalResponsibilitiesStr
+                                }}
+                                onToggleDetails={handleJobSelect}
+                                isSelected={selectedJobId === job.Id}
+                            />
+                        </li>
+                    ))}
                 </ul>
             )}
-
-            {/* Pagination Controls */}
-            <div className="mt-4 flex justify-between space-x-2">
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="bg-gray-500 text-white py-2 px-4 rounded"
-                >
-                    Previous
-                </button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="bg-blue-500 text-white py-2 px-4 rounded"
-                >
-                    Next
-                </button>
-            </div>
         </div>
     );
-}
+};
 
 export default Oracle;

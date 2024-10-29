@@ -2,15 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dropdown } from '../../Components/Dropdown/Dropdown';
 import { jobCategory, jobType, location } from '../../Data/data'; // Ensure this path is correct
+import JobCard from '../../Components/JobCard/JobCard';
 
 // Define the Job interface
 interface Job {
     name: string;
     display_job_id: string;
-    postingDate: string;
     canonicalPositionUrl: string;
     locations: string[];
     id: string;
+    custom_JD?: {
+        data_fields: {
+            posting_date: string[];
+        };
+    };
 }
 
 // Define props for the Netflix component
@@ -32,17 +37,15 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const resultsPerPage = 10;
 
-    // State variable to hold the selected job ID for displaying details
-    const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
-
     // State variable to store job details
-    const [description, setDescription] = useState<string>('');
+    const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+    const [postingDates, setPostingDates] = useState<{ [key: string]: string }>({});
+    const [jobDescriptions, setJobDescriptions] = useState<{ [key: string]: string }>({});
 
     const fetchJobs = async () => {
         setLoading(true);
         setError(null);
 
-        // Construct query parameters based on selected filters and pagination
         const queryParams = [
             locationCode && `location=${locationCode}`,
             jobCategoryCode && `Teams=${jobCategoryCode}`,
@@ -57,7 +60,15 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
         try {
             const res = await axios.get(url);
             if (res.data.positions) {
-                setJobs(res.data.positions); // Set jobs
+                const fetchedJobs: Job[] = res.data.positions; // Specify type here
+                setJobs(fetchedJobs);
+
+                // Fetch posting dates for each job
+                const newPostingDates: { [key: string]: string } = {};
+                await Promise.all(fetchedJobs.map((job: Job) => fetchJobDetails(job.id, newPostingDates))); // Specify type here
+
+                // Set the posting dates
+                setPostingDates(newPostingDates);
             } else {
                 throw new Error('Invalid response structure');
             }
@@ -69,16 +80,24 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
         }
     };
 
-    const fetchJobDetails = async (jobId: string) => {
+    const fetchJobDetails = async (jobId: string, postingDateAccumulator: { [key: string]: string }) => {
         const aiResumeUrl = `/netflix/api/apply/v2/jobs/${jobId}?domain=netflix.com`;
         console.log(aiResumeUrl);
-    
+
         try {
             const response = await axios.get(aiResumeUrl);
-    
             if (response.status === 200) {
                 const jobDetails = response.data;
-                setDescription(jobDetails.job_description || ''); // Handle potential undefined description
+
+                // Store posting date
+                const postingDate = jobDetails.custom_JD?.data_fields?.posting_date[0] || '';
+                postingDateAccumulator[jobId] = postingDate;
+
+                // Optionally store job description if needed later
+                setJobDescriptions(prev => ({
+                    ...prev,
+                    [jobId]: jobDetails.job_description || '', // Handle potential undefined description
+                }));
             } else {
                 console.error(`Unexpected response status: ${response.status}`);
             }
@@ -95,13 +114,20 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
         fetchJobs();
     }, [jobCategoryCode, jobTypeCode, locationCode, currentPage]);
 
-    // Handler functions for pagination
     const handleNextPage = () => {
         setCurrentPage((prev) => prev + 1);
     };
 
     const handleBackPage = () => {
         setCurrentPage((prev) => Math.max(prev - 1, 1));
+    };
+
+    const handleJobClick = (id: string) => {
+        if (selectedJobId === id) {
+            setSelectedJobId(null); // Hide details
+        } else {
+            setSelectedJobId(id); // Show details
+        }
     };
 
     return (
@@ -168,40 +194,23 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                     <ul>
                         {jobs.length > 0 ? (
                             jobs.map((job) => (
-                                <li key={job.display_job_id}>
-                                    <div>
-                                        <h3>{job.name}</h3>
-                                        <p>Job ID: {job.display_job_id}</p>
-                                        <p>Location: {job.locations.join(', ')}</p>
-                                        <p>Posted On: {new Date(job.postingDate).toLocaleDateString()}</p>
-                                        <a 
-                                            href={job.canonicalPositionUrl} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer">
-                                            View Job
-                                        </a>
-                                        <button onClick={() => {
-                                            if (selectedJobId === job.id) {
-                                                setSelectedJobId(null);
-                                                setDescription('');
-                                            } else {
-                                                setSelectedJobId(job.id);
-                                                fetchJobDetails(job.id);
-                                            }
-                                        }}>
-                                            {selectedJobId === job.id ? 'Hide Details' : 'View Details'}
-                                        </button>
-                                    </div>
-                                    {selectedJobId === job.id && (
-                                        <div className="mt-4">
-                                            {description && (
-                                                <div>
-                                                    <h4>Description:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: description }} />
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                <li key={job.id}>
+                                    <JobCard
+                                        job={{
+                                            title: job.name,
+                                            id_icims: job.display_job_id,
+                                            posted_date: postingDates[job.id] || '', // Render posting date when available
+                                            job_path: `${job.canonicalPositionUrl}`,
+                                            normalized_location: job.locations.join(', '),
+                                            basic_qualifications: "",
+                                            description: selectedJobId === job.id ? jobDescriptions[job.id] || '' : '', // Show description only if selected
+                                            preferred_qualifications: "", // Assuming you want to show the same as preferred
+                                            responsibilities: "",
+                                        }}
+                                        onToggleDetails={() => handleJobClick(job.id)}
+                                        isSelected={selectedJobId === job.id}
+                                        baseUrl=""
+                                    />
                                 </li>
                             ))
                         ) : (

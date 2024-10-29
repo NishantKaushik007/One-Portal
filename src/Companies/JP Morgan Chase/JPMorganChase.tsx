@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dropdown } from '../../Components/Dropdown/Dropdown';
-import { jobCategory, country, postingDate } from '../../Data/data'; // Ensure this path is correct
+import { jobCategory, country, postingDate } from '../../Data/data';
+import JobCard from '../../Components/JobCard/JobCard'; // Adjust the import path as needed
 
-// Define the secondary location interface
 interface SecondaryLocation {
     RequisitionLocationId: number;
     GeographyNodeId: number;
@@ -14,7 +14,6 @@ interface SecondaryLocation {
     Longitude: number | null;
 }
 
-// Define the Job interface
 interface Job {
     Id: string;
     Title: string;
@@ -23,7 +22,6 @@ interface Job {
     secondaryLocations: SecondaryLocation[];
 }
 
-// Define the JobDetails interface for fetched job details
 interface JobDetails {
     ExternalDescriptionStr: string;
     CorporateDescriptionStr: string;
@@ -32,7 +30,6 @@ interface JobDetails {
     Skills: string;
 }
 
-// Define props for the JP Morgan Chase component
 interface JPMorganChaseProps {
     selectedCompany: string;
 }
@@ -41,16 +38,11 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalJobsCount, setTotalJobsCount] = useState<number>(0);
-
-    // State variables for filters
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [postingDateCode, setPostingDateCode] = useState<string>('');
     const [countryCode, setCountryCode] = useState<string>('');
-
-    // State variable for job details
     const [jobDetails, setJobDetails] = useState<JobDetails | null>(null);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
@@ -141,7 +133,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}
+                            }))} 
                         onChange={(selectedOption) => setJobCategoryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
@@ -154,7 +146,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}
+                            }))} 
                         onChange={(selectedOption) => setPostingDateCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
@@ -167,7 +159,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}
+                            }))} 
                         onChange={(selectedOption) => setCountryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
@@ -183,55 +175,21 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                         {jobs.length > 0 ? (
                             jobs.map((job) => (
                                 <li key={job.Id}>
-                                    <div>
-                                        <h3>{job.Title}</h3>
-                                        <p>Job ID: {job.Id}</p>
-                                        <p>
-                                            Location: {job.PrimaryLocation}
-                                            {job.secondaryLocations.length > 0 ? `, ${job.secondaryLocations.map(location => location.Name).join(', ')}` : ''}
-                                        </p>
-                                        <p>Posted On: {job.PostedDate}</p>
-                                        <a href={`https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/${job.Id}`} target="_blank" rel="noopener noreferrer">View Job</a>
-                                        <button onClick={() => handleJobSelect(job.Id)}>
-                                            {selectedJobId === job.Id ? 'Hide Details' : 'View Details'}
-                                        </button>
-                                    </div>
-
-                                    {/* Job Details Section */}
-                                    {selectedJobId === job.Id && jobDetails && (
-                                        <div className="mt-4">
-                                            {jobDetails.ExternalDescriptionStr && (
-                                                <div>
-                                                    <h4>Job Description:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: jobDetails.ExternalDescriptionStr }} />
-                                                </div>
-                                            )}
-                                            {jobDetails.ExternalQualificationsStr && (
-                                                <div>
-                                                    <h4>Qualifications:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: jobDetails.ExternalQualificationsStr }} />
-                                                </div>
-                                            )}
-                                            {jobDetails.CorporateDescriptionStr && (
-                                                <div>
-                                                    <h4>Corporate Description:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: jobDetails.CorporateDescriptionStr }} />
-                                                </div>
-                                            )}
-                                            {jobDetails.ExternalResponsibilitiesStr && (
-                                                <div>
-                                                    <h4>Responsibilities:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: jobDetails.ExternalResponsibilitiesStr }} />
-                                                </div>
-                                            )}
-                                            {jobDetails.Skills && (
-                                                <div>
-                                                    <h4>Skills:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: jobDetails.Skills }} />
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                    <JobCard
+                                        baseUrl="" // Set baseUrl to an empty string
+                                        job={{
+                                            title: job.Title,
+                                            id_icims: job.Id,
+                                            posted_date: job.PostedDate,
+                                            job_path: `https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/${job.Id}`,
+                                            normalized_location: job.PrimaryLocation,
+                                            basic_qualifications: jobDetails?.ExternalQualificationsStr || '',
+                                            description: jobDetails?.ExternalDescriptionStr || '',
+                                            preferred_qualifications: jobDetails?.ExternalResponsibilitiesStr || ''
+                                        }}
+                                        onToggleDetails={handleJobSelect}
+                                        isSelected={selectedJobId === job.Id}
+                                    />
                                 </li>
                             ))
                         ) : (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dropdown } from '../../Components/Dropdown/Dropdown';
 import { jobCategory, industryExp, jobType, country, category, discipline } from '../../Data/data'; // Ensure this path is correct
+import JobCard from '../../Components/JobCard/JobCard'; // Import your JobCard component
 
 // Define the Job interface
 interface Job {
@@ -106,6 +107,18 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
 
     const handleBackPage = () => {
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1)); // Decrement current page, ensuring it doesn't go below 1
+    };
+
+    const handleJobClick = (jobId: string) => {
+        if (selectedJobId === jobId) {
+            setSelectedJobId(null); // If the same job is clicked, close the details
+            setDescription(''); // Clear the description
+            setQualifications(''); // Clear the qualifications
+            setResponsibilities(''); // Clear the responsibilities
+        } else {
+            setSelectedJobId(jobId); // Set selected job ID
+            fetchJobDetails(jobId); // Fetch job details
+        }
     };
 
     return (
@@ -216,53 +229,22 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                 <ul>
                     {jobs.map((job) => (
                         <li key={job.jobId}>
-                            <div>
-                                <h3>{job.title}</h3>
-                                <p>Job ID: {job.jobId}</p>
-                                <p>Location: {job.properties.locations.join(', ')}</p>
-                                <p>Posted On: {new Date(job.postingDate).toLocaleDateString()}</p>
-                                <a 
-                                    href={`https://jobs.careers.microsoft.com/global/en/job/${job.jobId}/${formatTitle(job.title)}`} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer">
-                                    View Job
-                                </a>
-                                <button onClick={() => {
-                                    if (selectedJobId === job.jobId) {
-                                        setSelectedJobId(null); // If the same job is clicked, close the details
-                                        setDescription(''); // Clear the description
-                                        setQualifications(''); // Clear the qualifications
-                                        setResponsibilities(''); // Clear the responsibilities
-                                    } else {
-                                        setSelectedJobId(job.jobId); // Set selected job ID
-                                        fetchJobDetails(job.jobId); // Fetch job details
-                                    }
-                                }}>
-                                    {selectedJobId === job.jobId ? 'Hide Details' : 'View Details'}
-                                </button>
-                            </div>
-                            {/* Job Details Section: Show only if this job is selected */}
-                            {selectedJobId === job.jobId && (
-                                <div className="mt-4">
-                                    {qualifications && (
-                                        <div>
-                                            <div dangerouslySetInnerHTML={{ __html: qualifications }} />
-                                        </div>
-                                    )}
-                                    {description && (
-                                        <div>
-                                            <h4>Description:</h4>
-                                            <div dangerouslySetInnerHTML={{ __html: description }} />
-                                        </div>
-                                    )}
-                                    {responsibilities && (
-                                        <div>
-                                            <h4>Responsibilities:</h4>
-                                            <div dangerouslySetInnerHTML={{ __html: responsibilities }} />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                            <JobCard
+                                job={{
+                                    title: job.title,
+                                    id_icims: job.jobId,
+                                    posted_date: job.postingDate,
+                                    job_path: `https://jobs.careers.microsoft.com/global/en/job/${job.jobId}/${formatTitle(job.title)}`,
+                                    normalized_location: job.properties.locations.join(', '),
+                                    basic_qualifications: qualifications,
+                                    description: description,
+                                    preferred_qualifications: "", // Assuming you want to show the same as preferred
+                                    responsibilities: responsibilities,
+                                }}
+                                onToggleDetails={() => handleJobClick(job.jobId)}
+                                isSelected={selectedJobId === job.jobId}
+                                baseUrl=""
+                            />
                         </li>
                     ))}
                 </ul>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import { jobCategory, location } from '../../Data/data';
+import JobCard from '../../Components/JobCard/JobCard';
 
 interface Job {
     uuid: string;
@@ -15,6 +16,10 @@ interface Job {
         id: string;
         label: string;
     };
+    title: string; // Add properties to match JobCard requirements
+    basic_qualifications: string; 
+    description: string; 
+    preferred_qualifications: string; 
 }
 
 interface ApiResponse {
@@ -31,11 +36,10 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
+    const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [locationCode, setLocationCode] = useState<string>('');
 
-    // Function to fetch jobs based on the selected filters
     const fetchJobs = async () => {
         setLoading(true);
         setError(null);
@@ -54,7 +58,6 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         }
     };
 
-    // Fetch jobs when the selected company changes
     useEffect(() => {
         if (selectedCompany === 'Rippling') {
             fetchJobs();
@@ -63,12 +66,14 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         }
     }, [selectedCompany]);
 
-    // Function to handle filter change and refetch data
+    const toggleJobDetails = (jobId: string) => {
+        setSelectedJobId(selectedJobId === jobId ? null : jobId);
+    };
+
     const handleFilterChange = () => {
         fetchJobs(); // Refetch jobs based on current filters
     };
 
-    // Filter job categories and locations based on selected company
     const filteredJobCategories = jobCategory.filter(option => option.company === selectedCompany).map(option => ({
         label: option.value,
         value: option.code
@@ -79,14 +84,25 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         value: option.code
     }));
 
-    // Filter jobs based on selected criteria
-    const filteredJobs = jobs.filter(job => {
+    // Aggregate jobs by UUID
+    const jobsMap = jobs.reduce<{ [key: string]: Job & { locations: string[] } }>((acc, job) => {
+        if (!acc[job.uuid]) {
+            acc[job.uuid] = { ...job, locations: [job.workLocation.label] };
+        } else {
+            acc[job.uuid].locations.push(job.workLocation.label);
+        }
+        return acc;
+    }, {});
+
+    // Convert the jobs map back to an array
+    const aggregatedJobs = Object.values(jobsMap);
+
+    const filteredJobs = aggregatedJobs.filter(job => {
         const matchesLocation = locationCode ? job.workLocation.id === locationCode : true;
         const matchesDepartment = jobCategoryCode ? job.department.id === jobCategoryCode : true;
         return matchesLocation && matchesDepartment;
     });
 
-    // Handlers for dropdown changes
     const handleDepartmentChange = (selectedOption: { value: string; label: string } | null) => {
         setJobCategoryCode(selectedOption ? selectedOption.value : '');
         handleFilterChange(); // Refetch jobs when department changes
@@ -130,13 +146,21 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
                         {filteredJobs.length > 0 ? (
                             filteredJobs.map((job) => (
                                 <li key={job.uuid}>
-                                    <div>
-                                        <h3>{job.name}</h3>
-                                        <p>Job ID: {job.uuid}</p>
-                                        <p>Location: {job.workLocation.label}</p>
-                                        <p>Department: {job.department.label}</p>
-                                        <a href={job.url} target="_blank" rel="noopener noreferrer">View Job</a>
-                                    </div>
+                                    <JobCard
+                                        job={{
+                                            title: job.name, // Assuming name is the title
+                                            id_icims: job.uuid, // Use uuid as ID
+                                            job_path: job.url, // URL for job posting
+                                            normalized_location: job.locations.join(', '), // Join all locations
+                                            basic_qualifications: job.basic_qualifications || "", // Provide defaults
+                                            description: selectedJobId === job.uuid ? job.description || '' : '', // Show description if selected
+                                            preferred_qualifications: job.preferred_qualifications || "", // Provide defaults
+                                            responsibilities: "", // Update if you have this data
+                                        }}
+                                        onToggleDetails={toggleJobDetails}
+                                        isSelected={selectedJobId === job.uuid}
+                                        baseUrl="" // Base URL for job links
+                                    />
                                 </li>
                             ))
                         ) : (

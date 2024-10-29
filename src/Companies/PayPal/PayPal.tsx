@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select'; // Importing react-select
 import { jobCategory, jobType, location, skills } from '../../Data/data'; // Ensure this path is correct
+import JobCard from '../../Components/JobCard/JobCard';
 
 // Define the Job interface
 interface Job {
@@ -37,7 +38,7 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
     // State variable to store job details
-    const [description, setDescription] = useState<string>('');
+    const [description, setDescription] = useState<{ [key: string]: string }>({});
 
     const fetchJobs = async () => {
         setLoading(true);
@@ -79,7 +80,10 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
             const response = await axios.get(aiResumeUrl);
             if (response.status === 200) {
                 const jobDetails = response.data; // Get job details from the response
-                setDescription(jobDetails.job_description); // Store the job description in state
+                setDescription(prev => ({
+                    ...prev,
+                    [jobId]: jobDetails.job_description || '', // Handle potential undefined description
+                }));
             } else {
                 console.error(`Unexpected response status: ${response.status}`);
             }
@@ -103,6 +107,15 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
 
     const handleBackPage = () => {
         setCurrentPage((prev) => Math.max(prev - 1, 1)); // Ensure page doesn't go below 1
+    };
+
+    const handleJobClick = (id: string) => {
+        if (selectedJobId === id) {
+            setSelectedJobId(null); // Hide details
+        } else {
+            setSelectedJobId(id); // Show details
+            fetchJobDetails(id);
+        }
     };
 
     return (
@@ -215,40 +228,21 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                         {jobs.length > 0 ? (
                             jobs.map((job) => (
                                 <li key={job.display_job_id}>
-                                    <div>
-                                        <h3>{job.name}</h3>
-                                        <p>Job ID: {job.display_job_id}</p>
-                                        <p>Location: {job.locations.join(', ')}</p>
-                                        <p>Posted On: {new Date(job.postingDate).toLocaleDateString()}</p>
-                                        <a 
-                                            href={`${job.canonicalPositionUrl}`} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer">
-                                            View Job
-                                        </a>
-                                        <button onClick={() => {
-                                            if (selectedJobId === job.id) {
-                                                setSelectedJobId(null); // If the same job is clicked, close the details
-                                                setDescription(''); // Clear the description
-                                            } else {
-                                                setSelectedJobId(job.id); // Set selected job ID
-                                                fetchJobDetails(job.id); // Fetch job details
-                                            }
-                                        }}>
-                                            {selectedJobId === job.id ? 'Hide Details' : 'View Details'}
-                                        </button>
-                                    </div>
-                                    {/* Job Details Section: Show only if this job is selected */}
-                                    {selectedJobId === job.id && (
-                                        <div className="mt-4">
-                                            {description && (
-                                                <div>
-                                                    <h4>Description:</h4>
-                                                    <div dangerouslySetInnerHTML={{ __html: description }} />
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                    <JobCard
+                                        job={{
+                                            title: job.name,
+                                            id_icims: job.display_job_id,
+                                            job_path: `${job.canonicalPositionUrl}`,
+                                            normalized_location: job.locations.join(', '),
+                                            basic_qualifications: "",
+                                            description: selectedJobId === job.id ? description[Number(job.id)] || '' : '', // Show description only if selected
+                                            preferred_qualifications: "", // Assuming you want to show the same as preferred
+                                            responsibilities: "",
+                                        }}
+                                        onToggleDetails={() => handleJobClick(job.id)}
+                                        isSelected={selectedJobId === job.id}
+                                        baseUrl=""
+                                    />
                                 </li>
                             ))
                         ) : (
