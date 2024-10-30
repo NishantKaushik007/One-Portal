@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dropdown } from '../../Components/Dropdown/Dropdown';
-import { jobCategory, industryExp, country } from '../../Data/data';
+import { jobCategory, industryExp, location, category } from '../../Data/data';
 import JobCard from '../../Components/JobCard/JobCard'; // Adjust the import path as necessary
 
 interface Job {
@@ -16,11 +16,11 @@ interface Job {
     salary_range: string; // Added salary range
 }
 
-interface AMDProps {
+interface GitHubProps {
     selectedCompany: string;
 }
 
-const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
+const GitHub: React.FC<GitHubProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -30,7 +30,8 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
 
     // State variables for filters
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
-    const [countryCode, setCountryCode] = useState<string>('');
+    const [categoryCode, setCategoryCode] = useState<string>('');
+    const [locationCode, setLocationCode] = useState<string>('');
     const [industryExpCode, setIndustryExpCode] = useState<string>('');
 
     const fetchJobs = async () => {
@@ -38,36 +39,35 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
         setError(null);
 
         const queryParams = [
-            countryCode && `country=${countryCode}`,
+            locationCode && `locations=${locationCode}`,
             jobCategoryCode && `categories=${jobCategoryCode}`,
-            industryExpCode && `tags1=${industryExpCode}`,
+            industryExpCode && `tags4=${industryExpCode}`,
+            categoryCode && `tags6=${categoryCode}`,
             `offset=${(currentPage - 1) * resultsPerPage}`,
             `result_limit=${resultsPerPage}`
         ].filter(Boolean).join('&');
 
-        const url = `/AMD/api/jobs?page=1&${queryParams}sortBy=relevance&descending=false&internal=false`;
-        console.log('Fetching URL:', url); // Log the constructed URL
+        const url = `/GitHub/api/jobs?page=1&${queryParams}sortBy=relevance&descending=false&internal=false&deviceId=undefined&domain=githubinc.jibeapply.com`;
+        console.log(url);
 
         try {
             const res = await axios.get(url);
-            console.log('API Response:', res.data); // Log the API response
-
             const jobData = res.data.jobs.map((job: any) => ({
                 title: job.data.title,
                 req_id: job.data.req_id,
                 posted_date: job.data.posted_date,
                 location_name: job.data.location_name,
-                qualifications: job.data.qualifications || '', // Handle potential undefined
-                description: job.data.description || '', // Handle potential undefined
-                responsibilities: job.data.responsibilities || '', // Handle potential undefined
-                canonical_url: job.data.meta_data.canonical_url || '', // Default to an empty string if undefined
-                salary_range: `${job.data.tags2[0] || 'N/A'} - ${job.data.tags3[0] || 'N/A'}` // Extracting salary range safely
+                qualifications: job.data.qualifications,
+                description: job.data.description,
+                responsibilities: job.data.responsibilities,
+                canonical_url: job.data.meta_data.canonical_url,
+                salary_range: `${job.data.tags2[0]} - ${job.data.tags3[0]}` // Extracting salary range
             }));
 
             setJobs(jobData);
         } catch (error) {
-            console.error('Error fetching data:', error); // Log the actual error
             setError('Error fetching data');
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
         }
@@ -75,7 +75,7 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
 
     useEffect(() => {
         fetchJobs();
-    }, [jobCategoryCode, countryCode, industryExpCode, currentPage]);
+    }, [jobCategoryCode, locationCode, categoryCode, industryExpCode, currentPage]);
 
     const toggleJobDetails = (jobId: string) => {
         setSelectedJobId(selectedJobId === jobId ? null : jobId);
@@ -100,21 +100,21 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))} 
+                            }))}
                         onChange={(selectedOption) => setJobCategoryCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
                 <label className="flex flex-col mb-4 md:mb-0">
-                    Country:
+                    Location:
                     <Dropdown
-                        options={country
+                        options={location
                             .filter(option => option.company === selectedCompany)
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))} 
-                        onChange={(selectedOption) => setCountryCode(selectedOption ? selectedOption.value : '')}
+                            }))}
+                        onChange={(selectedOption) => setLocationCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
 
@@ -126,10 +126,24 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))} 
+                            }))}
                         onChange={(selectedOption) => setIndustryExpCode(selectedOption ? selectedOption.value : '')}
                     />
                 </label>
+
+                <label className="flex flex-col mb-4 md:mb-0">
+                    Category:
+                    <Dropdown
+                        options={category
+                            .filter(option => option.company === selectedCompany)
+                            .map(option => ({
+                                label: option.value,
+                                value: option.code
+                            }))}
+                        onChange={(selectedOption) => setCategoryCode(selectedOption ? selectedOption.value : '')}
+                    />
+                </label>
+
             </div>
 
             {loading ? (
@@ -146,7 +160,7 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
                                 job={job}
                                 onToggleDetails={toggleJobDetails}
                                 isSelected={selectedJobId === job.req_id}
-                                baseUrl={job.canonical_url} // Pass the canonical URL
+                                baseUrl="" // Base URL for job links
                             />
                         </li>
                     ))}
@@ -175,4 +189,4 @@ const AMD: React.FC<AMDProps> = ({ selectedCompany }) => {
     );
 };
 
-export default AMD;
+export default GitHub;

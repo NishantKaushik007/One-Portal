@@ -12,7 +12,7 @@ interface Job {
     posted_date?: string; // Optional for backward compatibility
     postingDate?: string; // Optional for backward compatibility
     job_path?: string;
-    apply_url?: string;
+    canonical_url?: string;
     url?: string;
     location_name?: string;
     normalized_location?: string; // Optional for backward compatibility
@@ -34,11 +34,17 @@ interface JobCardProps {
 
 const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, baseUrl }) => {
     const handleViewJob = () => {
-        if (job.job_path) {
-            const jobPath = job.job_path ? job.job_path : (job.url ? job.url : job.apply_url);
+        // Log the job object for debugging
+        console.log('Job object:', job);
+
+        // Determine the job URL
+        const jobPath = job.job_path || job.url || job.canonical_url;
+
+        if (jobPath) {
             window.open(`${baseUrl}${jobPath}`, '_blank');
         } else {
             console.error('Job path is not defined');
+            alert('Job URL is not available.');
         }
     };
 
@@ -56,7 +62,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                     <img
                         src="./JobCard Logo/JobID.png"
                         alt="Job ID Icon"
-                        className="mr-1 w-7 h-7" // Adjust size as needed
+                        className="mr-1 w-7 h-7"
                     />
                     <span>{jobId}</span>
                 </span>
@@ -64,7 +70,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                     <img
                         src="./JobCard Logo/Salary.png"
                         alt="Salary Icon"
-                        className="mr-1 w-10 h-10" // Adjust size as needed
+                        className="mr-1 w-10 h-10"
                     />
                     <span>{job.salary_range || 'N/A'}</span>
                 </span>
@@ -72,7 +78,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                     <img
                         src="./JobCard Logo/Calendar.png"
                         alt="Calendar Icon"
-                        className="mr-1 w-7 h-7" // Adjust size as needed
+                        className="mr-1 w-7 h-7"
                     />
                     <span>{postingDate ? new Date(postingDate).toLocaleDateString() : 'N/A'}</span>
                 </span>
@@ -80,7 +86,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                     <img
                         src="./JobCard Logo/Location.png"
                         alt="Location Icon"
-                        className="mr-1 w-6 h-6" // Adjust size as needed
+                        className="mr-1 w-6 h-6"
                     />
                     <span>{fullLocation || 'N/A'}</span>
                 </span>
@@ -103,7 +109,6 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                 </button>
             </div>
 
-            {/* Job Details Section */}
             {isSelected && (
                 <div className="mt-2 border-t pt-2">
                     <h4 className="font-semibold">Description:</h4>

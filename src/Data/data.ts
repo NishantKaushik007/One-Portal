@@ -7,6 +7,7 @@ export const companyList = [
     {value: 'PayPal', icon: './Companies Logo/PayPal.png'},
     {value: 'Rippling', icon: './Companies Logo/Rippling.png'},
     {value: 'AMD', icon: './Companies Logo/amd.png'},
+    {value: 'GitHub', icon: './Companies Logo/github.png'},
 ];
 
 export const jobCategory = [
@@ -258,12 +259,21 @@ export const jobCategory = [
     {company: "AMD", value:	"Accounting/Finance", code:	"Accounting/Finance"},
     {company: "AMD", value:	"Engineering", code:	"Engineering"},
     {company: "AMD", value:	"General Management/ Administration/ Support", code:	"General%20Management/%20Administration/%20Support"},
-    {company: "AMD", value:	"Human Resources", code:	"Human%20Resources"},
+    {company: "AMD", value:	"Human Resources", code: "Human%20Resources"},
     {company: "AMD", value:	"Information Technology", code:	"Information%20Technology"},
-    {company: "AMD", value:	"Legal", code:	"Legal"},
+    {company: "AMD", value:	"Legal", code: "Legal"},
     {company: "AMD", value:	"Manufacturing", code:	"Manufacturing"},
-    {company: "AMD", value:	"Sales / Marketing", code:	"Sales%20/%20Marketing"},
-    {company: "AMD", value:	"Student / Intern / Temp", code:	"Student%20/%20Intern%20/%20Temp"},
+    {company: "AMD", value:	"Sales / Marketing", code: "Sales%20/%20Marketing"},
+    {company: "AMD", value:	"Student / Intern / Temp", code: "Student%20/%20Intern%20/%20Temp"},
+    {company: "GitHub", value: "Customer Success", code: "Customer%20Success"},
+    {company: "GitHub", value: "Design", code:	"Design"},
+    {company: "GitHub", value: "Engineering", code: "Engineering"},
+    {company: "GitHub", value: "Marketing", code: "Marketing"},
+    {company: "GitHub", value: "Operations", code:	"Operations"},
+    {company: "GitHub", value: "Product", code: "Product"},
+    {company: "GitHub", value: "Revenue", code: "Revenue"},
+    {company: "GitHub", value: "Sales", code: "Sales"},
+    {company: "GitHub", value: "Security", code: "Security"},
 ];
 
 export const industryExp = [
@@ -279,6 +289,7 @@ export const industryExp = [
     {company: "Oracle", value: "10+ years", code: "%22AttributeChar6%7C10%2B%20years%22"},
     {company: "AMD", value: "Recent Graduate", code: "Yes"},
     {company: "AMD", value: "Experienced professionals", code: "No"},
+    {company: "GitHub", value: "Experienced Professional", code: "Experienced%20Professional"},
 ];
 
 export const jobType = [
@@ -750,6 +761,9 @@ export const category = [
     {company: "Microsoft", value: "Microsoft on-site only", code: "Microsoft%20on-site%20only"},
     {company: "Microsoft", value: "Up to 100% work from home", code: "Up%20to%20100%%20work%20from%20home"},
     {company: "Microsoft", value: "Up to 50% work from home", code: "Up%20to%2050%%20work%20from%20home"},
+    {company: "GitHub", value: "Remote", code: "Yes"},
+    {company: "GitHub", value: "Onsite", code: "No"},
+
 ];
 
 export const discipline = [
@@ -1020,6 +1034,14 @@ export const location = [
     {company: "Rippling", value: "Remote (Philippines)", code: "Remote (Philippines)"},
     {company: "Rippling", value: "Remote (China)", code: "Remote (China)"},
     {company: "Rippling", value: "Remote (Japan)", code: "Remote (Japan)"},
+    {company: "GitHub", value:	"San Francisco, California, United States", code: "San%20Francisco,California,United%20States"},
+    {company: "GitHub", value:	"Australia", code: ",,Australia"},
+    {company: "GitHub", value:	"CAN", code: ",,CAN"},
+    {company: "GitHub", value:	"Germany", code: ",,Germany"},
+    {company: "GitHub", value:	"Japan", code: ",,Japan"},
+    {company: "GitHub", value:	"Netherlands", code: ",,Netherlands"},
+    {company: "GitHub", value:	"United Kingdom", code: ",,United%20Kingdom"},
+    {company: "GitHub", value:	"United States", code: ",,United%20States"},
 ];
 
 export const postingDate = [

@@ -9,6 +9,7 @@ import Oracle from '../../Companies/Oracle/Oracle';
 import PayPal from '../../Companies/PayPal/PayPal';
 import Rippling from '../../Companies/Rippling/Rippling';
 import AMD from '../../Companies/AMD/AMD';
+import GitHub from '../../Companies/GitHub/GitHub';
 
 // Define the type for the option
 interface CompanyOption {
@@ -66,6 +67,7 @@ const SelectedCompany = () => {
             {selectedCompany === "PayPal" && <PayPal selectedCompany={selectedCompany} />}
             {selectedCompany === "Rippling" && <Rippling selectedCompany={selectedCompany} />}
             {selectedCompany === "AMD" && <AMD selectedCompany={selectedCompany} />}
+            {selectedCompany === "GitHub" && <GitHub selectedCompany={selectedCompany} />}
         </div>
     );
 };

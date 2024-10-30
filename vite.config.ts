@@ -55,6 +55,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/AMD/, '')
       },
+      '/GitHub': {
+        target: 'https://www.github.careers',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/GitHub/, '')
+      },
     },
   },
   plugins: [react()],
