@@ -7,17 +7,22 @@ interface SecondaryLocation {
 interface Job {
     title: string;
     id_icims?: string; // Optional for backward compatibility
+    req_id?: string;
     jobId?: string; // Optional for backward compatibility
     posted_date?: string; // Optional for backward compatibility
     postingDate?: string; // Optional for backward compatibility
     job_path?: string;
+    apply_url?: string;
     url?: string;
+    location_name?: string;
     normalized_location?: string; // Optional for backward compatibility
     secondaryLocations?: SecondaryLocation[]; // Added secondary locations
-    basic_qualifications: string;
+    basic_qualifications?: string;
+    qualifications?: string;
     description: string;
-    preferred_qualifications: string;
+    preferred_qualifications?: string;
     responsibilities?: string; // Made optional
+    salary_range?: string;
 }
 
 interface JobCardProps {
@@ -30,26 +35,55 @@ interface JobCardProps {
 const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, baseUrl }) => {
     const handleViewJob = () => {
         if (job.job_path) {
-            const jobPath = job.job_path ? job.job_path : job.url;
+            const jobPath = job.job_path ? job.job_path : (job.url ? job.url : job.apply_url);
             window.open(`${baseUrl}${jobPath}`, '_blank');
         } else {
             console.error('Job path is not defined');
         }
     };
 
-    const jobId = job.id_icims || job.jobId;
+    const jobId = job.id_icims || job.jobId || job.req_id;
     const postingDate = job.posted_date || job.postingDate;
-    const primaryLocation = job.normalized_location || '';
+    const primaryLocation = job.normalized_location || job.location_name || '';
     const secondaryLocations = job.secondaryLocations?.map(location => location.Name) || [];
     const fullLocation = [primaryLocation, ...secondaryLocations].filter(Boolean).join(', ');
 
     return (
         <div className={`bg-white rounded-lg shadow-md p-4 mb-4 ${isSelected ? 'bg-gray-100' : ''}`}>
             <h3 className="text-lg font-semibold">{job.title}</h3>
-            <div className="flex flex-col md:flex-row items-center mt-1">
-                <span className="flex-1 text-gray-600 text-sm">Job ID: {jobId}</span>
-                <span className="flex-1 text-center text-gray-600 text-sm">{postingDate ? new Date(postingDate).toLocaleDateString() : 'N/A'}</span>
-                <span className="flex-1 text-right text-gray-600 text-sm">Location: {fullLocation || 'N/A'}</span>
+            <div className="flex flex-col md:flex-row items-center mt-1 gap-x-10 justify-between">
+                <span className="flex flex-row items-center">
+                    <img
+                        src="./JobCard Logo/JobID.png"
+                        alt="Job ID Icon"
+                        className="mr-1 w-7 h-7" // Adjust size as needed
+                    />
+                    <span>{jobId}</span>
+                </span>
+                <span className="flex flex-row items-center">
+                    <img
+                        src="./JobCard Logo/Salary.png"
+                        alt="Salary Icon"
+                        className="mr-1 w-10 h-10" // Adjust size as needed
+                    />
+                    <span>{job.salary_range || 'N/A'}</span>
+                </span>
+                <span className="flex flex-row items-center">
+                    <img
+                        src="./JobCard Logo/Calendar.png"
+                        alt="Calendar Icon"
+                        className="mr-1 w-7 h-7" // Adjust size as needed
+                    />
+                    <span>{postingDate ? new Date(postingDate).toLocaleDateString() : 'N/A'}</span>
+                </span>
+                <span className="flex flex-row items-center">
+                    <img
+                        src="./JobCard Logo/Location.png"
+                        alt="Location Icon"
+                        className="mr-1 w-6 h-6" // Adjust size as needed
+                    />
+                    <span>{fullLocation || 'N/A'}</span>
+                </span>
             </div>
             <div className="flex flex-col md:flex-row justify-between mt-2">
                 <button
@@ -75,7 +109,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
                     <h4 className="font-semibold">Description:</h4>
                     <div dangerouslySetInnerHTML={{ __html: job.description || '' }} />
                     <h4 className="font-semibold">Basic Qualifications:</h4>
-                    <div dangerouslySetInnerHTML={{ __html: job.basic_qualifications || '' }} />
+                    <div dangerouslySetInnerHTML={{ __html: job.basic_qualifications || job.qualifications || '' }} />
                     <h4 className="font-semibold">Preferred Qualifications:</h4>
                     <div dangerouslySetInnerHTML={{ __html: job.preferred_qualifications || '' }} />
                     {job.responsibilities && (

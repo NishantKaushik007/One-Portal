@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { companyList } from '../../Data/data'; // Ensure this path is correct
+import Select, { components } from 'react-select';
 import Amazon from '../../Companies/Amazon/Amazon'; 
 import Microsoft from '../../Companies/Microsoft/Microsoft'; 
 import Netflix from '../../Companies/Netflix/Netflix';
@@ -7,7 +8,7 @@ import JPMorganChase from '../../Companies/JP Morgan Chase/JPMorganChase';
 import Oracle from '../../Companies/Oracle/Oracle';
 import PayPal from '../../Companies/PayPal/PayPal';
 import Rippling from '../../Companies/Rippling/Rippling';
-import Select, { components } from 'react-select';
+import AMD from '../../Companies/AMD/AMD';
 
 // Define the type for the option
 interface CompanyOption {
@@ -64,6 +65,7 @@ const SelectedCompany = () => {
             {selectedCompany === "Oracle" && <Oracle selectedCompany={selectedCompany} />}
             {selectedCompany === "PayPal" && <PayPal selectedCompany={selectedCompany} />}
             {selectedCompany === "Rippling" && <Rippling selectedCompany={selectedCompany} />}
+            {selectedCompany === "AMD" && <AMD selectedCompany={selectedCompany} />}
         </div>
     );
 };

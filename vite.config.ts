@@ -50,6 +50,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/AMD': {
+        target: 'https://careers.amd.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/AMD/, '')
+      },
     },
   },
   plugins: [react()],
