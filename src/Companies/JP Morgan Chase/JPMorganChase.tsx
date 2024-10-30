@@ -110,13 +110,13 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
         }
     };
 
-    const nextPage = () => {
+    const handleNextPage = () => {
         if ((currentPage - 1) * 10 + jobs.length < totalJobsCount) {
             setCurrentPage(prevPage => prevPage + 1);
         }
     };
 
-    const previousPage = () => {
+    const handleBackPage = () => {
         if (currentPage > 1) {
             setCurrentPage(prevPage => prevPage - 1);
         }
@@ -197,9 +197,9 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                         )}
                     </ul>
                     <div className="mt-4 flex justify-between space-x-2">
-                        <button onClick={previousPage} disabled={currentPage === 1} className="bg-gray-500 text-white py-2 px-4 rounded">Previous</button>
+                        <button onClick={handleBackPage} disabled={currentPage === 1} className="bg-gray-500 text-white py-2 px-4 rounded">Previous</button>
                         <span>Page {currentPage}</span>
-                        <button onClick={nextPage} disabled={(currentPage - 1) * 10 + jobs.length >= totalJobsCount} className="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
+                        <button onClick={handleNextPage} disabled={(currentPage - 1) * 10 + jobs.length >= totalJobsCount} className="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
                     </div>
                 </>
             )}
