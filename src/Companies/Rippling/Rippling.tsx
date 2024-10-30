@@ -40,6 +40,10 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
     const [locationCode, setLocationCode] = useState<string>('');
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const resultsPerPage = 10; // Number of items per page
+
     const fetchJobs = async () => {
         setLoading(true);
         setError(null);
@@ -103,6 +107,11 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
         return matchesLocation && matchesDepartment;
     });
 
+    // Calculate current jobs based on pagination
+    const indexOfLastJob = currentPage * resultsPerPage;
+    const indexOfFirstJob = indexOfLastJob - resultsPerPage;
+    const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+
     const handleDepartmentChange = (selectedOption: { value: string; label: string } | null) => {
         setJobCategoryCode(selectedOption ? selectedOption.value : '');
         handleFilterChange(); // Refetch jobs when department changes
@@ -111,6 +120,15 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const handleLocationChange = (selectedOption: { value: string; label: string } | null) => {
         setLocationCode(selectedOption ? selectedOption.value : '');
         handleFilterChange(); // Refetch jobs when location changes
+    };
+
+    // Handler functions for pagination
+    const handleNextPage = () => {
+        setCurrentPage((prev) => prev + 1);
+    };
+
+    const handleBackPage = () => {
+        setCurrentPage((prev) => Math.max(prev - 1, 1)); // Ensure page doesn't go below 1
     };
 
     return (
@@ -143,8 +161,8 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
             ) : (
                 <div>
                     <ul>
-                        {filteredJobs.length > 0 ? (
-                            filteredJobs.map((job) => (
+                        {currentJobs.length > 0 ? (
+                            currentJobs.map((job) => (
                                 <li key={job.uuid}>
                                     <JobCard
                                         job={{
@@ -167,6 +185,23 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
                             <div>No jobs available for the selected criteria.</div>
                         )}
                     </ul>
+
+                    {/* Pagination Controls */}
+                    <div className="mt-4 flex justify-between space-x-2">
+                        <button 
+                            onClick={handleBackPage} 
+                            disabled={loading || currentPage === 1} // Disable on first page
+                            className="bg-gray-500 text-white py-2 px-4 rounded">
+                            Previous
+                        </button>
+                        <span>Page {currentPage}</span>
+                        <button 
+                            onClick={handleNextPage} 
+                            disabled={loading || currentJobs.length < resultsPerPage} // Disable if there are no more jobs
+                            className="bg-blue-500 text-white py-2 px-4 rounded">
+                            Next
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

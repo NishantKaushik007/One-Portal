@@ -58,7 +58,7 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
             `pg=${currentPage}` // Include current page in the query params
         ].filter(Boolean).join('&');
 
-        const url = `/search/api/v1/search?${queryParams}&l=en_us&pgSz=20&o=Relevance&flt=true`;
+        const url = `/search/api/v1/search?${queryParams}&l=en_us&pgSz=10&o=Relevance&flt=true`;
         console.log(url);
 
         try {

@@ -54,8 +54,8 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
             countryCode && `locationId=${countryCode}`,
             jobCategoryCode && `selectedCategoriesFacet=${jobCategoryCode}`,
             postingDateCode && `selectedPostingDatesFacet=${postingDateCode}`,
-            `limit=25`,
-            `offset=${(currentPage - 1) * 25}`
+            `limit=10`,
+            `offset=${(currentPage - 1) * 10}`
         ].filter(Boolean).join(',');
 
         const url = `/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations,flexFieldsFacet.values,requisitionList.requisitionFlexFields&finder=findReqs;siteNumber=CX_1001,facetsList=LOCATIONS%3BWORK_LOCATIONS%3BWORKPLACE_TYPES%3BTITLES%3BCATEGORIES%3BORGANIZATIONS%3BPOSTING_DATES%3BFLEX_FIELDS,${queryParams},sortBy=POSTING_DATES_DESC`;
@@ -111,7 +111,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
     };
 
     const nextPage = () => {
-        if ((currentPage - 1) * 25 + jobs.length < totalJobsCount) {
+        if ((currentPage - 1) * 10 + jobs.length < totalJobsCount) {
             setCurrentPage(prevPage => prevPage + 1);
         }
     };
@@ -199,7 +199,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                     <div className="mt-4 flex justify-between space-x-2">
                         <button onClick={previousPage} disabled={currentPage === 1} className="bg-gray-500 text-white py-2 px-4 rounded">Previous</button>
                         <span>Page {currentPage}</span>
-                        <button onClick={nextPage} disabled={(currentPage - 1) * 25 + jobs.length >= totalJobsCount} className="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
+                        <button onClick={nextPage} disabled={(currentPage - 1) * 10 + jobs.length >= totalJobsCount} className="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
                     </div>
                 </>
             )}

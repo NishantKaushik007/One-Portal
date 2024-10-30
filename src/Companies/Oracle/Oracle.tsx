@@ -38,6 +38,7 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
         ExternalResponsibilitiesStr: '',
         Skills: '',
     });
+    
     const [filters, setFilters] = useState({
         jobCategoryCode: '',
         jobTypeCode: '',
@@ -45,6 +46,10 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
         industryExpCode: '',
         postingDateCode: '',
     });
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const resultsPerPage = 10;
 
     const fetchJobs = async () => {
         setLoading(true);
@@ -55,6 +60,8 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
             selectedCategoriesFacet: filters.jobCategoryCode,
             selectedLocationsFacet: filters.countryCode,
             selectedPostingDatesFacet: filters.postingDateCode,
+            limit: resultsPerPage.toString(),
+            offset: ((currentPage - 1) * resultsPerPage).toString(), // Calculate offset for pagination
         };
 
         const url = `/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations,flexFieldsFacet.values,requisitionList.requisitionFlexFields&finder=findReqs;siteNumber=CX_45001,facetsList=LOCATIONS%3BWORK_LOCATIONS%3BWORKPLACE_TYPES%3BTITLES%3BCATEGORIES%3BORGANIZATIONS%3BPOSTING_DATES%3BFLEX_FIELDS,limit=200,${Object.entries(queryParams).filter(([, value]) => value).map(([key, value]) => `${key}=${value}`).join(',')},sortBy=POSTING_DATES_DESC`;
@@ -93,7 +100,7 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
 
     useEffect(() => {
         fetchJobs();
-    }, [filters]);
+    }, [filters, currentPage]);
 
     const handleJobSelect = (jobId: string) => {
         if (selectedJobId === jobId) {
@@ -125,6 +132,14 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
         </label>
     );
 
+    const handleNextPage = () => {
+        setCurrentPage(prev => prev + 1);
+    };
+
+    const handleBackPage = () => {
+        setCurrentPage(prev => Math.max(prev - 1, 1)); // Ensure page doesn't go below 1
+    };
+
     return (
         <div className="p-4">
             <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
@@ -140,28 +155,47 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
             ) : error ? (
                 <div className="error">{error}</div>
             ) : (
-                <ul>
-                    {jobs.map((job) => (
-                        <li key={job.Id}>
-                            <JobCard
-                                baseUrl=""
-                                job={{
-                                    title: job.Title,
-                                    id_icims: job.Id,
-                                    posted_date: job.PostedDate,
-                                    job_path: `https://careers.oracle.com/jobs/#en/sites/jobsearch/job/${job.Id}`,
-                                    normalized_location: job.PrimaryLocation,
-                                    secondaryLocations: job.secondaryLocations,
-                                    basic_qualifications: jobDetails.ExternalQualificationsStr,
-                                    description: jobDetails.ExternalDescriptionStr,
-                                    preferred_qualifications: jobDetails.ExternalResponsibilitiesStr
-                                }}
-                                onToggleDetails={handleJobSelect}
-                                isSelected={selectedJobId === job.Id}
-                            />
-                        </li>
-                    ))}
-                </ul>
+                <div>
+                    <ul>
+                        {jobs.map((job) => (
+                            <li key={job.Id}>
+                                <JobCard
+                                    baseUrl=""
+                                    job={{
+                                        title: job.Title,
+                                        id_icims: job.Id,
+                                        posted_date: job.PostedDate,
+                                        job_path: `https://careers.oracle.com/jobs/#en/sites/jobsearch/job/${job.Id}`,
+                                        normalized_location: job.PrimaryLocation,
+                                        secondaryLocations: job.secondaryLocations,
+                                        basic_qualifications: jobDetails.ExternalQualificationsStr,
+                                        description: jobDetails.ExternalDescriptionStr,
+                                        preferred_qualifications: jobDetails.ExternalResponsibilitiesStr
+                                    }}
+                                    onToggleDetails={handleJobSelect}
+                                    isSelected={selectedJobId === job.Id}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+
+                    {/* Pagination Controls */}
+                    <div className="mt-4 flex justify-between space-x-2">
+                        <button 
+                            onClick={handleBackPage} 
+                            disabled={loading || currentPage === 1} // Disable while loading and on the first page
+                            className="bg-gray-500 text-white py-2 px-4 rounded">
+                            Previous
+                        </button>
+                        <span>Page {currentPage}</span>
+                        <button 
+                            onClick={handleNextPage} 
+                            disabled={loading} // Disable while loading
+                            className="bg-blue-500 text-white py-2 px-4 rounded">
+                            Next
+                        </button>
+                    </div>
+                </div>
             )}
         </div>
     );

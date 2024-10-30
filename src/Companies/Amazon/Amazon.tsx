@@ -25,7 +25,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
     const [error, setError] = useState<string | null>(null);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const resultsPerPage = 20;
+    const resultsPerPage = 10;
 
     // State variables for filters
     const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
