@@ -123,7 +123,7 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
 
     return (
         <div>
-            <div className="flex flex-row space-x-4 mb-6">
+            <div className="flex flex-col mb-6 space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <label className="flex flex-col">
                     Profession:
                     <Dropdown
@@ -207,7 +207,7 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
+                            })) }                       
                         onChange={(newValue) => {
                             if (newValue) {
                                 setDisciplineCode(newValue.value.replace(/&/g, '%26'));

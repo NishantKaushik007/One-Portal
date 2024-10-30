@@ -119,9 +119,9 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     };
 
     return (
-        <div>
-            <div className="flex flex-row space-x-4 mb-6">
-                <label className="flex flex-col">
+        <div className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 mb-6">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Teams:
                     <Select
                         options={jobCategory
@@ -145,7 +145,7 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Work Type:
                     <Select
                         options={jobType
@@ -162,14 +162,14 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                         styles={{ 
                             control: (base) => ({
                                 ...base,
-                                minWidth: '200px', // Minimum width for dropdown
+                                minWidth: '200px',
                             }),
                         }}
                         placeholder="Select Work Type"
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Locations:
                     <Select
                         options={location
@@ -186,14 +186,14 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                         styles={{ 
                             control: (base) => ({
                                 ...base,
-                                minWidth: '200px', // Minimum width for dropdown
+                                minWidth: '200px',
                             }),
                         }}
                         placeholder="Select a Location"
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Skills:
                     <Select
                         options={skills
@@ -210,7 +210,7 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                         styles={{ 
                             control: (base) => ({
                                 ...base,
-                                minWidth: '200px', // Minimum width for dropdown
+                                minWidth: '200px',
                             }),
                         }}
                         placeholder="Select Skills"
@@ -235,7 +235,7 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                                             job_path: `${job.canonicalPositionUrl}`,
                                             normalized_location: job.locations.join(', '),
                                             basic_qualifications: "",
-                                            description: selectedJobId === job.id ? description[Number(job.id)] || '' : '', // Show description only if selected
+                                            description: selectedJobId === job.id ? description[job.id] || '' : '', // Show description only if selected
                                             preferred_qualifications: "", // Assuming you want to show the same as preferred
                                             responsibilities: "",
                                         }}

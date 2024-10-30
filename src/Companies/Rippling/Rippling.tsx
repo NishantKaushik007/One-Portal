@@ -16,7 +16,7 @@ interface Job {
         id: string;
         label: string;
     };
-    title: string; // Add properties to match JobCard requirements
+    title: string;
     basic_qualifications: string; 
     description: string; 
     preferred_qualifications: string; 
@@ -43,7 +43,7 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
     const fetchJobs = async () => {
         setLoading(true);
         setError(null);
-        const url = `/_next/data/r1zEgQrVrrgLzTRFhjDxY/en-GB/careers/open-roles.json`;
+        const url = `/_next/data/mQnQRZZE96pBwyvaaXPuY/en-GB/careers/open-roles.json`;
         try {
             const res = await axios.get<ApiResponse>(url);
             if (res.data.pageProps?.jobs) {
@@ -115,7 +115,7 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
 
     return (
         <div>
-            <div className="flex flex-row space-x-4 mb-6">
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
                 <label className="flex flex-col">
                     Departments:
                     <Select 
@@ -148,18 +148,18 @@ const Rippling: React.FC<RipplingProps> = ({ selectedCompany }) => {
                                 <li key={job.uuid}>
                                     <JobCard
                                         job={{
-                                            title: job.name, // Assuming name is the title
-                                            id_icims: job.uuid, // Use uuid as ID
-                                            job_path: job.url, // URL for job posting
-                                            normalized_location: job.locations.join(', '), // Join all locations
-                                            basic_qualifications: job.basic_qualifications || "", // Provide defaults
-                                            description: selectedJobId === job.uuid ? job.description || '' : '', // Show description if selected
-                                            preferred_qualifications: job.preferred_qualifications || "", // Provide defaults
-                                            responsibilities: "", // Update if you have this data
+                                            title: job.name,
+                                            id_icims: job.uuid,
+                                            job_path: job.url,
+                                            normalized_location: job.locations.join(', '),
+                                            basic_qualifications: job.basic_qualifications || "",
+                                            description: selectedJobId === job.uuid ? job.description || '' : '',
+                                            preferred_qualifications: job.preferred_qualifications || "",
+                                            responsibilities: "",
                                         }}
                                         onToggleDetails={toggleJobDetails}
                                         isSelected={selectedJobId === job.uuid}
-                                        baseUrl="" // Base URL for job links
+                                        baseUrl=""
                                     />
                                 </li>
                             ))

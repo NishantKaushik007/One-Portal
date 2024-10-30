@@ -78,7 +78,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
 
     const fetchJobDetails = async (jobId: string) => {
         const url = `/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;siteNumber=CX_1001,Id=%22${jobId}%22`;
-        
+
         try {
             const response = await axios.get(url);
             if (response.data && response.data.items && response.data.items[0]) {
@@ -124,8 +124,8 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
 
     return (
         <div>
-            <div className="flex flex-row space-x-4 mb-6">
-                <label className="flex flex-col">
+            <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Job Category:
                     <Dropdown
                         options={jobCategory
@@ -138,7 +138,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Posting Date:
                     <Dropdown
                         options={postingDate
@@ -151,7 +151,7 @@ const JPMorganChase: React.FC<JPMorganChaseProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Country:
                     <Dropdown
                         options={country

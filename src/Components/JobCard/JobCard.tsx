@@ -11,7 +11,7 @@ interface Job {
     posted_date?: string; // Optional for backward compatibility
     postingDate?: string; // Optional for backward compatibility
     job_path?: string;
-    url?:string;
+    url?: string;
     normalized_location?: string; // Optional for backward compatibility
     secondaryLocations?: SecondaryLocation[]; // Added secondary locations
     basic_qualifications: string;
@@ -37,36 +37,35 @@ const JobCard: React.FC<JobCardProps> = ({ job, onToggleDetails, isSelected, bas
         }
     };
 
-    // Determine job ID, posting date, and location based on available properties
     const jobId = job.id_icims || job.jobId;
     const postingDate = job.posted_date || job.postingDate;
     const primaryLocation = job.normalized_location || '';
     const secondaryLocations = job.secondaryLocations?.map(location => location.Name) || [];
-    const fullLocation = [primaryLocation, ...secondaryLocations].filter(Boolean).join(', '); // Join locations
+    const fullLocation = [primaryLocation, ...secondaryLocations].filter(Boolean).join(', ');
 
     return (
         <div className={`bg-white rounded-lg shadow-md p-4 mb-4 ${isSelected ? 'bg-gray-100' : ''}`}>
             <h3 className="text-lg font-semibold">{job.title}</h3>
-            <div className="flex items-center mt-1">
+            <div className="flex flex-col md:flex-row items-center mt-1">
                 <span className="flex-1 text-gray-600 text-sm">Job ID: {jobId}</span>
                 <span className="flex-1 text-center text-gray-600 text-sm">{postingDate ? new Date(postingDate).toLocaleDateString() : 'N/A'}</span>
                 <span className="flex-1 text-right text-gray-600 text-sm">Location: {fullLocation || 'N/A'}</span>
             </div>
-            <div className="flex justify-between mt-2">
+            <div className="flex flex-col md:flex-row justify-between mt-2">
+                <button
+                    onClick={handleViewJob}
+                    className="text-white bg-green-500 hover:bg-green-600 rounded px-4 py-2 mb-2 md:mb-0 order-1 md:order-2"
+                    aria-label="View job posting"
+                >
+                    View Job
+                </button>
                 <button
                     onClick={() => onToggleDetails(jobId!)}
-                    className="text-white bg-blue-500 hover:bg-blue-600 rounded px-4 py-2"
+                    className="text-white bg-blue-500 hover:bg-blue-600 rounded px-4 py-2 order-2 md:order-1"
                     aria-expanded={isSelected}
                     aria-label={isSelected ? 'Hide job details' : 'View job details'}
                 >
                     {isSelected ? 'Hide Details' : 'View Details'}
-                </button>
-                <button
-                    onClick={handleViewJob}
-                    className="text-white bg-green-500 hover:bg-green-600 rounded px-4 py-2"
-                    aria-label="View job posting"
-                >
-                    View Job
                 </button>
             </div>
 

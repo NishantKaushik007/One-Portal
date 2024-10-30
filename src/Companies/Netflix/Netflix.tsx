@@ -131,9 +131,9 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
     };
 
     return (
-        <div>
-            <div className="flex flex-row space-x-4 mb-6">
-                <label className="flex flex-col">
+        <div className="p-4">
+            <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
+                <label className="flex flex-col w-full md:w-1/3">
                     Teams:
                     <Dropdown
                         options={jobCategory
@@ -150,7 +150,7 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col w-full md:w-1/3">
                     Work Type:
                     <Dropdown
                         options={jobType
@@ -167,7 +167,7 @@ const Netflix: React.FC<NetflixProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col w-full md:w-1/3">
                     Locations:
                     <Dropdown
                         options={location

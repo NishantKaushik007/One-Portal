@@ -15,7 +15,7 @@ interface Job {
     job_path: string;
     normalized_location: string;
     PrimaryLocation: string;
-    secondaryLocations: SecondaryLocation[]; // Ensure this is included
+    secondaryLocations: SecondaryLocation[];
 }
 
 interface JobDetails {
@@ -108,7 +108,6 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
         setFilters(prev => ({ ...prev, [key]: value }));
     };
 
-    // Render Dropdown
     const renderDropdown = (label: string, options: any[], stateSetter: (value: string) => void) => (
         <label className="flex flex-col">
             {label}:
@@ -127,8 +126,8 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
     );
 
     return (
-        <div>
-            <div className="flex flex-row space-x-4 mb-6">
+        <div className="p-4">
+            <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
                 {renderDropdown("Job Category", jobCategory.filter(option => option.company === selectedCompany), handleDropdownChange('jobCategoryCode'))}
                 {renderDropdown("Job Type", jobType.filter(option => option.company === selectedCompany), handleDropdownChange('jobTypeCode'))}
                 {renderDropdown("Country", country.filter(option => option.company === selectedCompany), handleDropdownChange('countryCode'))}
@@ -152,7 +151,7 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
                                     posted_date: job.PostedDate,
                                     job_path: `https://careers.oracle.com/jobs/#en/sites/jobsearch/job/${job.Id}`,
                                     normalized_location: job.PrimaryLocation,
-                                    secondaryLocations: job.secondaryLocations, // Pass secondary locations here
+                                    secondaryLocations: job.secondaryLocations,
                                     basic_qualifications: jobDetails.ExternalQualificationsStr,
                                     description: jobDetails.ExternalDescriptionStr,
                                     preferred_qualifications: jobDetails.ExternalResponsibilitiesStr

@@ -81,8 +81,8 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
 
     return (
         <div>
-            <div className="flex flex-row space-x-4 mb-6">
-                <label className="flex flex-col">
+            <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Job Category:
                     <Dropdown
                         options={jobCategory
@@ -95,7 +95,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Category:
                     <Dropdown
                         options={category
@@ -108,7 +108,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Job Type:
                     <Dropdown
                         options={jobType
@@ -121,7 +121,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Country:
                     <Dropdown
                         options={country
@@ -134,7 +134,7 @@ const Amazon: React.FC<AmazonProps> = ({ selectedCompany }) => {
                     />
                 </label>
 
-                <label className="flex flex-col">
+                <label className="flex flex-col mb-4 md:mb-0">
                     Industry Experience:
                     <Dropdown
                         options={industryExp
