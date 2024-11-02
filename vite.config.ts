@@ -60,6 +60,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/GitHub/, '')
       },
+      '/endpoint': {
+        target: 'https://www.atlassian.com',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   plugins: [react()],

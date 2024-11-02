@@ -8,6 +8,7 @@ export const companyList = [
     {value: 'Rippling', icon: './Companies Logo/Rippling.png'},
     {value: 'AMD', icon: './Companies Logo/amd.png'},
     {value: 'GitHub', icon: './Companies Logo/github.png'},
+    {value: 'Atlassian', icon: './Companies Logo/Atlassian.png'},
 ];
 
 export const jobCategory = [
@@ -274,6 +275,24 @@ export const jobCategory = [
     {company: "GitHub", value: "Revenue", code: "Revenue"},
     {company: "GitHub", value: "Sales", code: "Sales"},
     {company: "GitHub", value: "Security", code: "Security"},
+    {company: "Atlassian", value: "Atlassian Corporate Engineering (ACE)", code: "Atlassian Corporate Engineering (ACE)"},
+    {company: "Atlassian", value: "Analytics & Data Science", code:	"Analytics & Data Science"},
+    {company: "Atlassian", value: "Design", code: "Design"},
+    {company: "Atlassian", value: "Engineering", code: "Engineering"},
+    {company: "Atlassian", value: "Finance & Accounting", code: "Finance & Accounting"},
+    {company: "Atlassian", value: "Legal", code: "Legal"},
+    {company: "Atlassian", value: "Marketing", code: "Marketing"},
+    {company: "Atlassian", value: "Other", code: "Other"},
+    {company: "Atlassian", value: "People", code: "People"},
+    {company: "Atlassian", value: "Product Management", code: "Product Management"},
+    {company: "Atlassian", value: "Program Management", code: "Program Management"},
+    {company: "Atlassian", value: "Risk & Compliance", code: "Risk & Compliance"},
+    {company: "Atlassian", value: "Sales", code: "Sales"},
+    {company: "Atlassian", value: "Security", code: "Security"},
+    {company: "Atlassian", value: "Site Reliability Engineering", code: "Site Reliability Engineering"},
+    {company: "Atlassian", value: "Support", code: "Support"},
+    {company: "Atlassian", value: "Graduates", code: "Graduates"},
+    {company: "Atlassian", value: "Interns", code: "Interns"},
 ];
 
 export const industryExp = [
@@ -752,7 +771,20 @@ export const country = [
     {company: "AMD", value:	"Netherlands", code: "Netherlands"},
     {company: "AMD", value:	"Spain", code: "Spain"},
     {company: "AMD", value:	"Sweden", code: "Sweden"},
-
+    {company: "Atlassian", value: "Australia", code: "Australia"},
+    {company: "Atlassian", value: "Canada", code: "Canada"},
+    {company: "Atlassian", value: "France", code: "France"},
+    {company: "Atlassian", value: "Germany", code: "Germany"},
+    {company: "Atlassian", value: "India", code: "India"},
+    {company: "Atlassian", value: "Japan", code: "Japan"},
+    {company: "Atlassian", value: "Netherlands", code: "Netherlands"},
+    {company: "Atlassian", value: "New Zealand", code: "New Zealand"},
+    {company: "Atlassian", value: "Philippines", code: "Philippines"},
+    {company: "Atlassian", value: "Poland", code: "Poland"},
+    {company: "Atlassian", value: "South Korea", code: "South Korea"},
+    {company: "Atlassian", value: "Turkey", code: "Turkey"},
+    {company: "Atlassian", value: "United Kingdom", code: "United Kingdom"},
+    {company: "Atlassian", value: "United States", code: "United States"},
 ];
 
 export const category = [
@@ -763,7 +795,6 @@ export const category = [
     {company: "Microsoft", value: "Up to 50% work from home", code: "Up%20to%2050%%20work%20from%20home"},
     {company: "GitHub", value: "Remote", code: "Yes"},
     {company: "GitHub", value: "Onsite", code: "No"},
-
 ];
 
 export const discipline = [
