@@ -13,7 +13,7 @@ interface Job {
     id: string;
     custom_JD?: {
         data_fields: {
-            posting_date: string[];
+            job_posting_date: string[];
         };
     };
 }
@@ -83,7 +83,7 @@ const Qualcomm: React.FC<QualcommProps> = ({ selectedCompany }) => {
     };
 
     const fetchJobDetails = async (jobId: string, postingDateAccumulator: { [key: string]: string }) => {
-        const aiResumeUrl = `/qualcomm/api/apply/v2/jobs?domain=qualcomm.com${jobId}`;
+        const aiResumeUrl = `/qualcomm/api/apply/v2/jobs/${jobId}?domain=qualcomm.com`;
         console.log(aiResumeUrl);
 
         try {
@@ -92,7 +92,7 @@ const Qualcomm: React.FC<QualcommProps> = ({ selectedCompany }) => {
                 const jobDetails = response.data;
 
                 // Store posting date
-                const postingDate = jobDetails.custom_JD?.data_fields?.posting_date[0] || '';
+                const postingDate = jobDetails.custom_JD?.data_fields?.job_posting_date[0] || '';
                 postingDateAccumulator[jobId] = postingDate;
 
                 // Optionally store job description if needed later
