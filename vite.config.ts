@@ -45,11 +45,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/paypal/, '')
       },
-      '/_next': {
-        target: 'https://www.rippling.com',
-        changeOrigin: true,
-        secure: false,
-      },
       '/AMD': {
         target: 'https://careers.amd.com',
         changeOrigin: true,
@@ -64,6 +59,11 @@ export default defineConfig({
         target: 'https://www.atlassian.com',
         changeOrigin: true,
         secure: false,
+      },
+      '/Rippling': {
+        target: 'https://www.rippling.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/Rippling/, '')
       },
     },
   },
