@@ -11,6 +11,7 @@ import Rippling from '../../Companies/Rippling/Rippling';
 import AMD from '../../Companies/AMD/AMD';
 import GitHub from '../../Companies/GitHub/GitHub';
 import Atlassian from '../../Companies/Atlassian/Atlassian'
+import Qualcomm from '../../Companies/Qualcomm/Qualcomm';
 
 // Define the type for the option
 interface CompanyOption {
@@ -70,6 +71,7 @@ const SelectedCompany = () => {
             {selectedCompany === "AMD" && <AMD selectedCompany={selectedCompany} />}
             {selectedCompany === "GitHub" && <GitHub selectedCompany={selectedCompany} />}
             {selectedCompany === "Atlassian" && <Atlassian selectedCompany={selectedCompany} />}
+            {selectedCompany === "Qualcomm" && <Qualcomm selectedCompany={selectedCompany} />}
         </div>
     );
 };

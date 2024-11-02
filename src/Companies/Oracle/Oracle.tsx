@@ -38,7 +38,7 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
         ExternalResponsibilitiesStr: '',
         Skills: '',
     });
-    
+
     const [filters, setFilters] = useState({
         jobCategoryCode: '',
         jobTypeCode: '',
@@ -100,7 +100,8 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
 
     useEffect(() => {
         fetchJobs();
-    }, [filters, currentPage]);
+        setSelectedJobId(null); // Reset selected job on filter change
+    }, [filters, currentPage]); // Include filters and currentPage in dependencies
 
     const handleJobSelect = (jobId: string) => {
         if (selectedJobId === jobId) {
@@ -126,6 +127,8 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
                 onChange={(newValue) => {
                     if (newValue) {
                         stateSetter(newValue.value);
+                    } else {
+                        stateSetter(''); // Reset filter if no value is selected
                     }
                 }}
             />

@@ -65,6 +65,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/Rippling/, '')
       },
+      '/qualcomm': {
+        target: 'https://careers.qualcomm.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qualcomm/, '')
+      },
     },
   },
   plugins: [react()],

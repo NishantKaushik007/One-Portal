@@ -134,8 +134,12 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 value: option.code
                             }))}                        
                         onChange={(newValue) => {
-                            if (newValue) setJobCategoryCode(newValue.value);
-                        }} // Correct state update
+                            if (newValue) {
+                                setJobCategoryCode(newValue.value);
+                            } else {
+                                setJobCategoryCode(''); // Reset if unselected
+                            }
+                        }} 
                     />
                 </label>
 
@@ -149,8 +153,12 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 value: option.code
                             }))}                        
                         onChange={(newValue) => {
-                            if (newValue) setCategoryCode(newValue.value);
-                        }} // Correct state update
+                            if (newValue) {
+                                setCategoryCode(newValue.value);
+                            } else {
+                                setCategoryCode(''); // Reset if unselected
+                            }
+                        }} 
                     />
                 </label>
 
@@ -164,8 +172,12 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 value: option.code
                             }))}                        
                         onChange={(newValue) => {
-                            if (newValue) setJobTypeCode(newValue.value);
-                        }} // Correct state update
+                            if (newValue) {
+                                setJobTypeCode(newValue.value);
+                            } else {
+                                setJobTypeCode(''); // Reset if unselected
+                            }
+                        }} 
                     />
                 </label>
 
@@ -179,8 +191,12 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                                 value: option.code
                             }))}                        
                         onChange={(newValue) => {
-                            if (newValue) setCountryCode(newValue.value);
-                        }} // Correct state update
+                            if (newValue) {
+                                setCountryCode(newValue.value);
+                            } else {
+                                setCountryCode(''); // Reset if unselected
+                            }
+                        }} 
                     />
                 </label>
 
@@ -192,10 +208,15 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                             .map(option => ({
                                 label: option.value,
                                 value: option.code
-                            }))}                        
+                            }))                        
+                            }                        
                         onChange={(newValue) => {
-                            if (newValue) setIndustryExpCode(newValue.value);
-                        }} // Correct state update
+                            if (newValue) {
+                                setIndustryExpCode(newValue.value);
+                            } else {
+                                setIndustryExpCode(''); // Reset if unselected
+                            }
+                        }} 
                     />
                 </label>
 
@@ -212,7 +233,7 @@ const Microsoft: React.FC<MicrosoftProps> = ({ selectedCompany }) => {
                             if (newValue) {
                                 setDisciplineCode(newValue.value.replace(/&/g, '%26'));
                             } else {
-                                setDisciplineCode(''); // Reset state if no value is selected
+                                setDisciplineCode(''); // Reset if no value is selected
                             }
                         }}
                     />
