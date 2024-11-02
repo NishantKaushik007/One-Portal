@@ -170,7 +170,7 @@ const Atlassian: React.FC<AtlassianProps> = ({ selectedCompany }) => {
                                             responsibilities: job.responsibilities || "",
                                         }}
                                         onToggleDetails={toggleJobDetails}
-                                        isSelected={selectedJobId === job.id}
+                                        isSelected={selectedJobId === job.id.toString()}
                                         baseUrl=""
                                     />
                                 </li>
