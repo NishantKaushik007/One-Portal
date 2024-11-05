@@ -10,6 +10,7 @@ export const companyList = [
     {value: 'GitHub', icon: './Companies Logo/github.png'},
     {value: 'Atlassian', icon: './Companies Logo/Atlassian.png'},
     {value: 'Qualcomm', icon: './Companies Logo/Qualcomm.png'},
+    {value: 'Sumo Logic', icon: './Companies Logo/Sumo Logic.png'},
 ];
 
 export const jobCategory = [
@@ -394,6 +395,22 @@ export const jobCategory = [
     {company: "Qualcomm", value: "Technical Communications - Writing", code: "Technical+Communications+-+Writing"},
     {company: "Qualcomm", value: "Total Rewards Management", code: "Total+Rewards+Management"},
     {company: "Qualcomm", value: "Video Systems, Hw Architecture", code: "Video+Systems%2C+HW+Architecture"},
+    {company: "Sumo Logic", value: "Customer Success" , code: "1686" },
+    {company: "Sumo Logic", value: "Enterprise Sales Organization" , code: "71681" },
+    {company: "Sumo Logic", value: "Finance" , code: "2596" },
+    {company: "Sumo Logic", value: "Global Channels and Partners" , code: "72170" },
+    {company: "Sumo Logic", value: "Global Marketing" , code: "72140" },
+    {company: "Sumo Logic", value: "Marketing Communications" , code: "72141" },
+    {company: "Sumo Logic", value: "Mid-Market & SMB Sales Organization" , code: "71682" },
+    {company: "Sumo Logic", value: "Product Management" , code: "2295" },
+    {company: "Sumo Logic", value: "Product Management - General" , code: "72172" },
+    {company: "Sumo Logic", value: "Sales" , code: "7379" },
+    {company: "Sumo Logic", value: "Sales Development Organization" , code: "71683" },
+    {company: "Sumo Logic", value: "Sales Engineering Organization" , code: "2547" },
+    {company: "Sumo Logic", value: "Security Compliance" , code: "2527" },
+    {company: "Sumo Logic", value: "Software Engineering" , code: "2317" },
+    {company: "Sumo Logic", value: "Software Engineering - Security" , code: "72143" },
+    {company: "Sumo Logic", value: "User Experience" , code: "72173" },
 ];
 
 export const industryExp = [
@@ -890,6 +907,11 @@ export const country = [
     {company: "Atlassian", value: "Turkey", code: "Turkey"},
     {company: "Atlassian", value: "United Kingdom", code: "United Kingdom"},
     {company: "Atlassian", value: "United States", code: "United States"},
+    {company: "Sumo Logic", value: "India" , code: "45881" },
+    {company: "Sumo Logic", value: "United States" , code: "75904" },
+    {company: "Sumo Logic", value: "Singapore" , code: "64339" },
+    {company: "Sumo Logic", value: "Australia" , code: "76197" },
+    {company: "Sumo Logic", value: "Costa Rica" , code: "200553" },
 ];
 
 export const category = [

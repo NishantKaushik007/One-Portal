@@ -12,6 +12,7 @@ import AMD from '../../Companies/AMD/AMD';
 import GitHub from '../../Companies/GitHub/GitHub';
 import Atlassian from '../../Companies/Atlassian/Atlassian'
 import Qualcomm from '../../Companies/Qualcomm/Qualcomm';
+import SumoLogic from '../../Companies/SumoLogic/SumoLogic';
 
 // Define the type for the option
 interface CompanyOption {
@@ -72,6 +73,7 @@ const SelectedCompany = () => {
             {selectedCompany === "GitHub" && <GitHub selectedCompany={selectedCompany} />}
             {selectedCompany === "Atlassian" && <Atlassian selectedCompany={selectedCompany} />}
             {selectedCompany === "Qualcomm" && <Qualcomm selectedCompany={selectedCompany} />}
+            {selectedCompany === "Sumo Logic" && <SumoLogic selectedCompany={selectedCompany} />}
         </div>
     );
 };

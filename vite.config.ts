@@ -70,6 +70,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/qualcomm/, '')
       },
+      '/v1': {
+        target: 'https://api.greenhouse.io',  // Replace with your actual API base URL
+        changeOrigin: true,
+        secure: false, // Set to false if the API server uses a self-signed certificate
+      },
     },
   },
   plugins: [react()],
