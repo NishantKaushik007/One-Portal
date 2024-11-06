@@ -75,6 +75,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false, // Set to false if the API server uses a self-signed certificate
       },
+      '/morganstanley': {
+        target: 'https://morganstanley.eightfold.ai',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/morganstanley/, '')
+      },
     },
   },
   plugins: [react()],

@@ -11,6 +11,7 @@ export const companyList = [
     {value: 'Atlassian', icon: './Companies Logo/Atlassian.png'},
     {value: 'Qualcomm', icon: './Companies Logo/Qualcomm.png'},
     {value: 'Sumo Logic', icon: './Companies Logo/Sumo Logic.png'},
+    {value: 'Morgan Stanley', icon: './Companies Logo/Morgan Stanley.png'},
 ];
 
 export const jobCategory = [
@@ -411,6 +412,21 @@ export const jobCategory = [
     {company: "Sumo Logic", value: "Software Engineering" , code: "2317" },
     {company: "Sumo Logic", value: "Software Engineering - Security" , code: "72143" },
     {company: "Sumo Logic", value: "User Experience" , code: "72173" },
+    {company: "Morgan Stanley", value: "Administration" , code: "administration" },
+    {company: "Morgan Stanley", value: "Company Management" , code: "company+management" },
+    {company: "Morgan Stanley", value: "Finance" , code: "finance" },
+    {company: "Morgan Stanley", value: "Global Capital Markets" , code: "global+capital+markets" },
+    {company: "Morgan Stanley", value: "Institutional Securities" , code: "institutional+securities" },
+    {company: "Morgan Stanley", value: "Internal Audit" , code: "internal+audit" },
+    {company: "Morgan Stanley", value: "Investment Banking" , code: "investment+banking" },
+    {company: "Morgan Stanley", value: "Investment Management" , code: "investment+management" },
+    {company: "Morgan Stanley", value: "Legal and Compliance" , code: "legal+and+compliance" },
+    {company: "Morgan Stanley", value: "Operations" , code: "operations" },
+    {company: "Morgan Stanley", value: "Research" , code: "research" },
+    {company: "Morgan Stanley", value: "Risk Management" , code: "risk+management" },
+    {company: "Morgan Stanley", value: "Sales and Trading" , code: "sales+and+trading" },
+    {company: "Morgan Stanley", value: "Technology" , code: "technology" },
+    {company: "Morgan Stanley", value: "Wealth Management" , code: "wealth+management" },
 ];
 
 export const industryExp = [
@@ -431,6 +447,10 @@ export const industryExp = [
     {company: "Qualcomm", value: "Entry", code: "Entry"},
     {company: "Qualcomm", value: "Intern", code: "Intern"},
     {company: "Qualcomm", value: "Director", code: "Director"},
+    {company: "Morgan Stanley", value: "Non-officer" , code: "non-officer" },
+    {company: "Morgan Stanley", value: "Vice President" , code: "vice+president" },
+    {company: "Morgan Stanley", value: "Executive Director" , code: "executive+director" },
+    {company: "Morgan Stanley", value: "Managing Director" , code: "managing+director" },
 ];
 
 export const jobType = [
@@ -448,6 +468,9 @@ export const jobType = [
     {company: "Oracle", value: "Temporary Employee", code: "%22AttributeChar4%7CTemp%22"},
     {company: "PayPal", value: "Full Time", code: "full+time"},
     {company: "PayPal", value: "Part Time", code: "part+time"},
+    {company: "Morgan Stanley", value: "Full-Time", code: "full+time"},
+    {company: "Morgan Stanley", value: "Part Time", code: "part+time"},
+    {company: "Morgan Stanley", value: "Intern", code: "intern"},
 ];
 
 export const country = [
@@ -912,6 +935,21 @@ export const country = [
     {company: "Sumo Logic", value: "Singapore" , code: "64339" },
     {company: "Sumo Logic", value: "Australia" , code: "76197" },
     {company: "Sumo Logic", value: "Costa Rica" , code: "200553" },
+    {company: "Morgan Stanley", value: "United States of America" , code: "United+States+of+America" },
+    {company: "Morgan Stanley", value: "India" , code: "India" },
+    {company: "Morgan Stanley", value: "Hungary" , code: "Hungary" },
+    {company: "Morgan Stanley", value: "Canada" , code: "Canada" },
+    {company: "Morgan Stanley", value: "United Kingdom" , code: "United+Kingdom" },
+    {company: "Morgan Stanley", value: "Japan" , code: "Japan" },
+    {company: "Morgan Stanley", value: "Hong Kong" , code: "Hong+Kong" },
+    {company: "Morgan Stanley", value: "Singapore" , code: "Singapore" },
+    {company: "Morgan Stanley", value: "Germany" , code: "Germany" },
+    {company: "Morgan Stanley", value: "Ireland" , code: "Ireland" },
+    {company: "Morgan Stanley", value: "France" , code: "France" },
+    {company: "Morgan Stanley", value: "Australia" , code: "Australia" },
+    {company: "Morgan Stanley", value: "Brazil" , code: "Brazil" },
+    {company: "Morgan Stanley", value: "Saudi Arabia" , code: "Saudi+Arabia" },
+    {company: "Morgan Stanley", value: "Switzerland" , code: "Switzerland" },
 ];
 
 export const category = [
