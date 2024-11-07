@@ -12,6 +12,7 @@ export const companyList = [
     {value: 'Qualcomm', icon: './Companies Logo/Qualcomm.png'},
     {value: 'Sumo Logic', icon: './Companies Logo/Sumo Logic.png'},
     {value: 'Morgan Stanley', icon: './Companies Logo/Morgan Stanley.png'},
+    {value: 'Make My Trip', icon: './Companies Logo/Make My Trip.png'},
 ];
 
 export const jobCategory = [
@@ -426,7 +427,7 @@ export const jobCategory = [
     {company: "Morgan Stanley", value: "Risk Management" , code: "risk+management" },
     {company: "Morgan Stanley", value: "Sales and Trading" , code: "sales+and+trading" },
     {company: "Morgan Stanley", value: "Technology" , code: "technology" },
-    {company: "Morgan Stanley", value: "Wealth Management" , code: "wealth+management" },
+    {company: "Morgan Stanley", value: "Wealth Management" , code: "wealth+management" }, 
 ];
 
 export const industryExp = [
@@ -1314,7 +1315,6 @@ export const location = [
     {company: "Qualcomm", value: "Vancouver, British Columbia, Canada" , code: "Vancouver%2C British Columbia%2C Canada" },
     {company: "Qualcomm", value: "Washington DC, District of Columbia, United States of America" , code: "Washington DC%2C District of Columbia%2C United States of America" },
     {company: "Qualcomm", value: "Remote" , code: "Remote" },
-
 ];
 
 export const postingDate = [

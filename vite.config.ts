@@ -80,6 +80,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/morganstanley/, '')
       },
+      '/makemytrip': {
+        target: 'https://careers.makemytrip.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/makemytrip/, '')
+      },
     },
   },
   plugins: [react()],
