@@ -85,6 +85,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/makemytrip/, '')
       },
+      '/siemens': {
+        target: 'https://jobs.siemens.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/siemens/, '')
+      },
     },
   },
   plugins: [react()],
