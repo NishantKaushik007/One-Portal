@@ -15,8 +15,9 @@ import Qualcomm from '../../Companies/Qualcomm/Qualcomm';
 import SumoLogic from '../../Companies/SumoLogic/SumoLogic';
 import MorganStanley from '../../Companies/Morgan Stanley/MorganStanley';
 import MakeMyTrip from '../../Companies/Make My Trip/MakeMyTrip';
-import Siemens from '../../Companies/Siemens/Siemens'
-import AmericanExpress from '../../Companies/American Express/AmericanExpress'
+import Siemens from '../../Companies/Siemens/Siemens';
+import AmericanExpress from '../../Companies/American Express/AmericanExpress';
+import JuniperNetworks from '../../Companies/Juniper Networks/JuniperNetworks';
 
 // Define the type for the option
 interface CompanyOption {
@@ -82,6 +83,7 @@ const SelectedCompany = () => {
             {selectedCompany === "Make My Trip" && <MakeMyTrip selectedCompany={selectedCompany} />}
             {selectedCompany === "Siemens" && <Siemens selectedCompany={selectedCompany} />}
             {selectedCompany === "American Express" && <AmericanExpress selectedCompany={selectedCompany} />}
+            {selectedCompany === "Juniper Networks" && <JuniperNetworks selectedCompany={selectedCompany} />}
         </div>
     );
 };

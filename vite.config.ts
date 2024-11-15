@@ -95,6 +95,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/americanExpress/, '')
       },
+      '/juniperNetworks': {
+        target: 'https://jobs.juniper.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/juniperNetworks/, '')
+      },
     },
   },
   plugins: [react()],
