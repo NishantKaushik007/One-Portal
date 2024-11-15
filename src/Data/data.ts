@@ -16,6 +16,7 @@ export const companyList = [
     {value: 'Rippling', icon: './Companies Logo/Rippling.png'},
     {value: 'Siemens', icon: './Companies Logo/siemens.png'},
     {value: 'Sumo Logic', icon: './Companies Logo/Sumo Logic.png'},
+    {value: 'Thoughtworks', icon: './Companies Logo/thoughtworks.png'},
 ];
 
 export const jobCategory = [

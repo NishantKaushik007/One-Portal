@@ -100,6 +100,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/juniperNetworks/, '')
       },
+      '/rest': {
+        target: 'https://www.thoughtworks.com',  // Replace with your actual API base URL
+        changeOrigin: true,
+        secure: false, // Set to false if the API server uses a self-signed certificate
+      },
     },
   },
   plugins: [react()],

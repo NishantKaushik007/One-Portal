@@ -18,6 +18,7 @@ import MakeMyTrip from '../../Companies/Make My Trip/MakeMyTrip';
 import Siemens from '../../Companies/Siemens/Siemens';
 import AmericanExpress from '../../Companies/American Express/AmericanExpress';
 import JuniperNetworks from '../../Companies/Juniper Networks/JuniperNetworks';
+import Thoughtworks from '../../Companies/Thoughtworks/Thoughtworks';
 
 // Define the type for the option
 interface CompanyOption {
@@ -84,6 +85,7 @@ const SelectedCompany = () => {
             {selectedCompany === "Siemens" && <Siemens selectedCompany={selectedCompany} />}
             {selectedCompany === "American Express" && <AmericanExpress selectedCompany={selectedCompany} />}
             {selectedCompany === "Juniper Networks" && <JuniperNetworks selectedCompany={selectedCompany} />}
+            {selectedCompany === "Thoughtworks" && <Thoughtworks selectedCompany={selectedCompany} />}
         </div>
     );
 };

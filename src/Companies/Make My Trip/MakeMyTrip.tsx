@@ -155,7 +155,7 @@ const MakeMyTrip: React.FC<MakeMyTripProps> = ({}) => {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto">
             {loading ? (
                 <div className="text-center">Loading...</div>
             ) : error ? (
@@ -230,11 +230,14 @@ const MakeMyTrip: React.FC<MakeMyTripProps> = ({}) => {
                         )}
                     </ul>
 
-                    <div className="flex justify-between mt-6">
-                        <button onClick={handleBackPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-400 text-white rounded">
+                    <div className="mt-4 flex justify-between space-x-2">
+                        <button onClick={handleBackPage} disabled={currentPage === 1} className="bg-gray-500 text-white py-2 px-4 rounded">
                             Previous
                         </button>
-                        <button onClick={handleNextPage} disabled={currentPage >= Math.ceil(filteredJobs.length / jobsPerPage)} className="px-4 py-2 bg-gray-400 text-white rounded">
+                        <span>
+                            Page {currentPage}
+                        </span>
+                        <button onClick={handleNextPage} disabled={currentPage >= Math.ceil(filteredJobs.length / jobsPerPage)} className="bg-blue-500 text-white py-2 px-4 rounded">
                             Next
                         </button>
                     </div>
