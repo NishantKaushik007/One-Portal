@@ -90,6 +90,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/siemens/, '')
       },
+      '/americanExpress': {
+        target: 'https://aexp.eightfold.ai',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/americanExpress/, '')
+      },
     },
   },
   plugins: [react()],

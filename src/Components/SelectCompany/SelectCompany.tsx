@@ -16,6 +16,7 @@ import SumoLogic from '../../Companies/SumoLogic/SumoLogic';
 import MorganStanley from '../../Companies/Morgan Stanley/MorganStanley';
 import MakeMyTrip from '../../Companies/Make My Trip/MakeMyTrip';
 import Siemens from '../../Companies/Siemens/Siemens'
+import AmericanExpress from '../../Companies/American Express/AmericanExpress'
 
 // Define the type for the option
 interface CompanyOption {
@@ -80,6 +81,7 @@ const SelectedCompany = () => {
             {selectedCompany === "Morgan Stanley" && <MorganStanley selectedCompany={selectedCompany} />}
             {selectedCompany === "Make My Trip" && <MakeMyTrip selectedCompany={selectedCompany} />}
             {selectedCompany === "Siemens" && <Siemens selectedCompany={selectedCompany} />}
+            {selectedCompany === "American Express" && <AmericanExpress selectedCompany={selectedCompany} />}
         </div>
     );
 };
