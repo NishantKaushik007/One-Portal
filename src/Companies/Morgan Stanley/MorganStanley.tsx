@@ -131,7 +131,7 @@ const MorganStanley: React.FC<MorganStanleyProps> = ({ selectedCompany }) => {
     };
 
     return (
-        <div className="p-4">
+        <div>
             {/* Filters integrated directly in MorganStanley */}
             <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
                 <label className="flex flex-col w-full md:w-1/3">
