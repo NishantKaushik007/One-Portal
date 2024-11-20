@@ -105,6 +105,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false, // Set to false if the API server uses a self-signed certificate
       },
+      '/deshaw': {
+        target: 'https://www.apply.deshaw.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/deshaw/, '')
+      },
     },
   },
   plugins: [react()],

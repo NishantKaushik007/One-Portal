@@ -3,6 +3,7 @@ export const companyList = [
     {value: 'Amazon', icon: './Companies Logo/Amazon.png'},
     {value: 'American Express', icon: './Companies Logo/American Express.png'},
     {value: 'Atlassian', icon: './Companies Logo/Atlassian.png'},
+    {value: 'D.E. Shaw', icon: './Companies Logo/DeShaw.png'},
     {value: 'GitHub', icon: './Companies Logo/github.png'},
     {value: 'JP Morgan Chase', icon: './Companies Logo/JPMC.png'},
     {value: 'Juniper Networks', icon: './Companies Logo/Juniper Networks.png'},

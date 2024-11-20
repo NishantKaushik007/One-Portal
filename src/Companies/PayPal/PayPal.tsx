@@ -23,12 +23,12 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // State variables for filters
-    const [jobCategoryCode, setJobCategoryCode] = useState<string>('');
-    const [jobTypeCode, setJobTypeCode] = useState<string>('');
-    const [locationCode, setLocationCode] = useState<string>('');
-    const [skillsCode, setSkillsCode] = useState<string>('');
+    const [jobCategoryCode, setJobCategoryCode] = useState<string | null>(null);
+    const [jobTypeCode, setJobTypeCode] = useState<string | null>(null);
+    const [locationCode, setLocationCode] = useState<string | null>(null);
+    const [skillsCode, setSkillsCode] = useState<string | null>(null);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -75,12 +75,12 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     const fetchJobDetails = async (jobId: string) => {
         const aiResumeUrl = `/paypal/api/apply/v2/jobs/${jobId}?domain=paypal.com`; // Construct the URL for fetching job details
         console.log(aiResumeUrl);
-    
+
         try {
             const response = await axios.get(aiResumeUrl);
             if (response.status === 200) {
                 const jobDetails = response.data; // Get job details from the response
-                setDescription(prev => ({
+                setDescription((prev) => ({
                     ...prev,
                     [jobId]: jobDetails.job_description || '', // Handle potential undefined description
                 }));
@@ -119,26 +119,28 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
     };
 
     return (
-        <div className="p-4 md:p-6">
+        <div>
             <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 mb-6">
                 <label className="flex flex-col mb-4 md:mb-0">
                     Teams:
                     <Select
                         options={jobCategory
-                            .filter(option => option.company === selectedCompany)
-                            .map(option => ({
+                            .filter((option) => option.company === selectedCompany)
+                            .map((option) => ({
                                 label: option.value,
-                                value: option.code
+                                value: option.code,
                             }))}
-                        onChange={(option) => {
-                            if (option) {
-                                setJobCategoryCode(option.value);
-                            }
-                        }}
-                        styles={{ 
+                        onChange={(option) => setJobCategoryCode(option?.value || null)}
+                        value={
+                            jobCategoryCode
+                                ? { value: jobCategoryCode, label: jobCategory.find((o) => o.code === jobCategoryCode)?.value || '' }
+                                : null
+                        }
+                        isClearable
+                        styles={{
                             control: (base) => ({
                                 ...base,
-                                minWidth: '200px', // Minimum width for dropdown
+                                minWidth: '200px',
                             }),
                         }}
                         placeholder="Select a Team"
@@ -149,17 +151,19 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                     Work Type:
                     <Select
                         options={jobType
-                            .filter(option => option.company === selectedCompany)
-                            .map(option => ({
+                            .filter((option) => option.company === selectedCompany)
+                            .map((option) => ({
                                 label: option.value,
-                                value: option.code
+                                value: option.code,
                             }))}
-                        onChange={(option) => {
-                            if (option) {
-                                setJobTypeCode(option.value);
-                            }
-                        }}
-                        styles={{ 
+                        onChange={(option) => setJobTypeCode(option?.value || null)}
+                        value={
+                            jobTypeCode
+                                ? { value: jobTypeCode, label: jobType.find((o) => o.code === jobTypeCode)?.value || '' }
+                                : null
+                        }
+                        isClearable
+                        styles={{
                             control: (base) => ({
                                 ...base,
                                 minWidth: '200px',
@@ -173,17 +177,19 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                     Locations:
                     <Select
                         options={location
-                            .filter(option => option.company === selectedCompany)
-                            .map(option => ({
+                            .filter((option) => option.company === selectedCompany)
+                            .map((option) => ({
                                 label: option.value,
-                                value: option.code
+                                value: option.code,
                             }))}
-                        onChange={(option) => {
-                            if (option) {
-                                setLocationCode(option.value);
-                            }
-                        }}
-                        styles={{ 
+                        onChange={(option) => setLocationCode(option?.value || null)}
+                        value={
+                            locationCode
+                                ? { value: locationCode, label: location.find((o) => o.code === locationCode)?.value || '' }
+                                : null
+                        }
+                        isClearable
+                        styles={{
                             control: (base) => ({
                                 ...base,
                                 minWidth: '200px',
@@ -197,17 +203,19 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                     Skills:
                     <Select
                         options={skills
-                            .filter(option => option.company === selectedCompany)
-                            .map(option => ({
+                            .filter((option) => option.company === selectedCompany)
+                            .map((option) => ({
                                 label: option.value,
-                                value: option.code
+                                value: option.code,
                             }))}
-                        onChange={(option) => {
-                            if (option) {
-                                setSkillsCode(option.value);
-                            }
-                        }}
-                        styles={{ 
+                        onChange={(option) => setSkillsCode(option?.value || null)}
+                        value={
+                            skillsCode
+                                ? { value: skillsCode, label: skills.find((o) => o.code === skillsCode)?.value || '' }
+                                : null
+                        }
+                        isClearable
+                        styles={{
                             control: (base) => ({
                                 ...base,
                                 minWidth: '200px',
@@ -234,10 +242,10 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
                                             id_icims: job.display_job_id,
                                             job_path: `${job.canonicalPositionUrl}`,
                                             normalized_location: job.locations.join(', '),
-                                            basic_qualifications: "",
+                                            basic_qualifications: '',
                                             description: selectedJobId === job.id ? description[job.id] || '' : '', // Show description only if selected
-                                            preferred_qualifications: "", // Assuming you want to show the same as preferred
-                                            responsibilities: "",
+                                            preferred_qualifications: '',
+                                            responsibilities: '',
                                         }}
                                         onToggleDetails={() => handleJobClick(job.id)}
                                         isSelected={selectedJobId === job.id}
@@ -252,17 +260,19 @@ const PayPal: React.FC<PayPalProps> = ({ selectedCompany }) => {
 
                     {/* Pagination Controls */}
                     <div className="mt-4 flex justify-between space-x-2">
-                        <button 
-                            onClick={handleBackPage} 
-                            disabled={loading || currentPage === 1} // Disable while loading and on the first page
-                            className="bg-gray-500 text-white py-2 px-4 rounded">
+                        <button
+                            onClick={handleBackPage}
+                            disabled={loading || currentPage === 1}
+                            className="bg-gray-500 text-white py-2 px-4 rounded"
+                        >
                             Previous
                         </button>
                         <span>Page {currentPage}</span>
-                        <button 
-                            onClick={handleNextPage} 
-                            disabled={loading} // Disable while loading
-                            className="bg-blue-500 text-white py-2 px-4 rounded">
+                        <button
+                            onClick={handleNextPage}
+                            disabled={loading}
+                            className="bg-blue-500 text-white py-2 px-4 rounded"
+                        >
                             Next
                         </button>
                     </div>
