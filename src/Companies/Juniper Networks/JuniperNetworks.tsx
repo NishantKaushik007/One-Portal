@@ -121,7 +121,7 @@ const JuniperNetworks: React.FC<JuniperNetworksProps> = ({ selectedCompany }) =>
     };
 
     return (
-        <div className="p-4">
+        <div>
             {/* Filters integrated directly in JuniperNetworks */}
             <div className="flex flex-col md:flex-row md:space-x-3 mb-6">
 
