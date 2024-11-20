@@ -142,7 +142,7 @@ const Qualcomm: React.FC<QualcommProps> = ({ selectedCompany }) => {
     };
 
     return (
-        <div className="p-4">
+        <div>
             <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
                 <label className="flex flex-col w-full md:w-1/3">
                     Teams:

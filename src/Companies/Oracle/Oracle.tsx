@@ -144,7 +144,7 @@ const Oracle: React.FC<{ selectedCompany: string }> = ({ selectedCompany }) => {
     };
 
     return (
-        <div className="p-4">
+        <div>
             <div className="flex flex-col md:flex-row md:space-x-4 mb-6">
                 {renderDropdown("Job Category", jobCategory.filter(option => option.company === selectedCompany), handleDropdownChange('jobCategoryCode'))}
                 {renderDropdown("Job Type", jobType.filter(option => option.company === selectedCompany), handleDropdownChange('jobTypeCode'))}
