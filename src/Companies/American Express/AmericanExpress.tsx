@@ -125,7 +125,7 @@ const  AmericanExpress: React.FC< AmericanExpressProps> = ({ selectedCompany }) 
     };
 
     return (
-        <div className="p-4">
+        <div>
             {/* Filters integrated directly in  AmericanExpress */}
             <div className="flex flex-col md:flex-row md:space-x-3 mb-6">
             
