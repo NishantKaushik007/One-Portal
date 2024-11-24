@@ -110,6 +110,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/deshaw/, '')
       },
+      '/palantir': {
+        target: 'https://www.palantir.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/palantir/, '')
+      },
     },
   },
   plugins: [react()],

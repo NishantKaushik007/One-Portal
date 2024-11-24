@@ -20,6 +20,7 @@ import AmericanExpress from '../../Companies/American Express/AmericanExpress';
 import JuniperNetworks from '../../Companies/Juniper Networks/JuniperNetworks';
 import Thoughtworks from '../../Companies/Thoughtworks/Thoughtworks';
 import DeShaw from '../../Companies/DE Shaw/DeShaw';
+import Palantir from '../../Companies/Palantir/Palantir';
 
 // Define the type for the option
 interface CompanyOption {
@@ -88,6 +89,7 @@ const SelectedCompany = () => {
             {selectedCompany === "Juniper Networks" && <JuniperNetworks selectedCompany={selectedCompany} />}
             {selectedCompany === "Thoughtworks" && <Thoughtworks selectedCompany={selectedCompany} />}
             {selectedCompany === "D.E. Shaw" && <DeShaw selectedCompany={selectedCompany} />}
+            {selectedCompany === "Palantir" && <Palantir selectedCompany={selectedCompany} />}
         </div>
     );
 };
