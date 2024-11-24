@@ -535,24 +535,6 @@ export const jobCategory = [
     {company: "Juniper Networks", value: "Administrative Support" , code: "administrative%20support" },
     {company: "Juniper Networks", value: "Information Technology" , code: "information%20technology" },
     {company: "Juniper Networks", value: "System Testing" , code: "system%20testing" },
-    {company: "Palantir", value: "Engineering", code: "Engineering"},
-    {company: "Palantir", value: "Recruiting", code: "Recruiting"},
-    {company: "Palantir", value: "Commercial", code: "Commercial"},
-    {company: "Palantir", value: "International Government", code: "Echo"},
-    {company: "Palantir", value: "US Government", code: "US Government"},
-    {company: "Palantir", value: "Foundry & Gotham", code: "Foundry & Gotham"},
-    {company: "Palantir", value: "Production Infrastructure", code: "Production Infrastructure"},
-    {company: "Palantir", value: "Reliability & Operations", code: "Reliability & Operations"},
-    {company: "Palantir", value: "US Commercial Sales", code: "US Commercial Sales"},
-    {company: "Palantir", value: "USG Sales", code: "USG Sales"},
-    {company: "Palantir", value: "Administrative", code: "Administrative"},
-    {company: "Palantir", value: "Communications", code: "Communications"},
-    {company: "Palantir", value: "Finance", code: "Finance"},
-    {company: "Palantir", value: "Global Security and Investigations", code: "Global Security and Investigations"},
-    {company: "Palantir", value: "Information Security", code: "Information Security"},
-    {company: "Palantir", value: "Legal", code: "Legal"},
-    {company: "Palantir", value: "Mission Operations", code: "Mission Operations"},
-    {company: "Palantir", value: "People", code: "People"},
 ];
 
 export const industryExp = [
@@ -611,9 +593,6 @@ export const jobType = [
     {company: "Siemens", value: "Jornada Completa" , code: "jornada+completa" },
     {company: "Siemens", value: "Part-time" , code: "part-time" },
     {company: "Siemens", value: "Part-time temporary" , code: "part-time+temporary" },
-    {company: "Palantir", value: "Internship", code: "Internship"},
-    {company: "Palantir", value: "Scholarship", code: "Scholarship"},
-    {company: "Palantir", value: "New Graduates", code: "New Graduates"},
 ];
 
 export const country = [
@@ -1667,26 +1646,6 @@ export const location = [
     {company: "Juniper Networks", value: "United States" , code: "United%20States" },
     {company: "Juniper Networks", value: "WA, United States" , code: "WA%2C%20United%20States" },
     {company: "Juniper Networks", value: "Westford, MA, United States" , code: "Westford%2C%20MA%2C%20United%20States" },
-    {company: "Palantir", value: "Chicago, IL" , code: "Chicago, IL" },
-    {company: "Palantir", value: "Denver, CO" , code: "Denver, CO" },
-    {company: "Palantir", value: "Honolulu, HI" , code: "Honolulu, HI" },
-    {company: "Palantir", value: "New York, NY" , code: "New York, NY" },
-    {company: "Palantir", value: "Palo Alto, CA" , code: "Palo Alto, CA" },
-    {company: "Palantir", value: "Remote: US - East" , code: "Remote: US - East" },
-    {company: "Palantir", value: "Remote: US - Mid-West" , code: "Remote: US - Mid-West" },
-    {company: "Palantir", value: "Remote: US - South" , code: "Remote: US - South" },
-    {company: "Palantir", value: "Seattle, WA" , code: "Seattle, WA" },
-    {company: "Palantir", value: "Washington, D.C." , code: "Washington, D.C." },
-    {company: "Palantir", value: "Copenhagen, Denmark" , code: "Copenhagen, Denmark" },
-    {company: "Palantir", value: "Doha, Qatar" , code: "Doha, Qatar" },
-    {company: "Palantir", value: "London, United Kingdom" , code: "London, United Kingdom" },
-    {company: "Palantir", value: "Madrid, Spain" , code: "Madrid, Spain" },
-    {company: "Palantir", value: "Stockholm, Sweden" , code: "Stockholm, Sweden" },
-    {company: "Palantir", value: "Tel Aviv, Israel" , code: "Tel Aviv, Israel" },
-    {company: "Palantir", value: "Canberra, Australia" , code: "Canberra, Australia" },
-    {company: "Palantir", value: "Seoul, South Korea" , code: "Seoul, South Korea" },
-    {company: "Palantir", value: "Sydney, Australia" , code: "Sydney, Australia" },
-    {company: "Palantir", value: "Tokyo, Japan" , code: "Tokyo, Japan" },
 ];
 
 export const postingDate = [
