@@ -115,6 +115,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/palantir/, '')
       },
+      '/spaceX': {
+        target: 'https://boards-api.greenhouse.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/spaceX/, '')
+      },
     },
   },
   plugins: [react()],

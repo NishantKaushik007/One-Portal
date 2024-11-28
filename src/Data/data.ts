@@ -17,6 +17,7 @@ export const companyList = [
     {value: 'Qualcomm', icon: './Companies Logo/Qualcomm.png'},
     {value: 'Rippling', icon: './Companies Logo/Rippling.png'},
     {value: 'Siemens', icon: './Companies Logo/siemens.png'},
+    {value: 'SpaceX', icon: './Companies Logo/SpaceX.png'},
     {value: 'Sumo Logic', icon: './Companies Logo/Sumo Logic.png'},
     {value: 'Thoughtworks', icon: './Companies Logo/thoughtworks.png'},
 ];
